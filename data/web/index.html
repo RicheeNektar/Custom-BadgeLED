@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>LED Badge Controller</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="index.css" />
+</head>
+<body>
+<div class="container">
+    <div class="nav-buttons">
+        <a href="/network">Netzwerk</a>
+        <a href="/display">Display</a>
+        <a href="/update">OTA Update</a>
+    </div>
+
+    <h1>LED Badge Controller</h1>
+
+    <form method="post">
+        <div class="card">
+            <div class="control-group">
+                <label for="mode">LED-Modus</label>
+                <select name="mode" id="mode">
+                    <option value="0">Einfarbig</option>
+                    <option value="1">Regenbogen</option>
+                    <option value="2">Regenbogen-Welle</option>
+                    <option value="3">Farbwisch</option>
+                    <option value="4">Theater-Verfolgung</option>
+                    <option value="5">Funkeln</option>
+                    <option value="6">Feuer</option>
+                    <option value="7">Pulsieren</option>
+                    <option value="8">Welle</option>
+                    <option value="9">Glitzern</option>
+                    <option value="10">Gradient</option>
+                    <option value="11">Wandernde Punkte</option>
+                    <option value="12">Komet</option>
+                    <option value="13">Springender Ball</option>
+                    <option value="14">Feuerwerk</option>
+                    <option value="15">Blitz</option>
+                    <option value="16">Konfetti</option>
+                    <option value="17">Atmung</option>
+                    <option value="18">Regen</option>
+                    <option value="19">Matrix</option>
+                    <option value="20">Umlaufbahn</option>
+                    <option value="21">Spirale</option>
+                    <option value="22">Meteorschauer</option>
+                    <option value="23">Farbrotation</option>
+                    <option value="24">Musik-reaktiv</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <div class="color-grid">
+                    <label class="color-box" style="background-color: hsl(0, 100%, 50%)" title="Rot">
+                        <input type="radio" name="primary" value="0"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(30, 100%, 50%)" title="Orange">
+                        <input type="radio" name="primary" value="21"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(60, 100%, 50%)" title="Gelb">
+                        <input type="radio" name="primary" value="43"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(90, 100%, 50%)" title="Gelbgr&uuml;n">
+                        <input type="radio" name="primary" value="64"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(120, 100%, 50%)" title="Gr&uuml;n">
+                        <input type="radio" name="primary" value="85"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(150, 100%, 50%)" title="Gr&uuml;ncyan">
+                        <input type="radio" name="primary" value="107"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(180, 100%, 50%)" title="Cyan">
+                        <input type="radio" name="primary" value="128"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(210, 100%, 50%)" title="Blau">
+                        <input type="radio" name="primary" value="149"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(240, 100%, 50%)" title="Blauviolett">
+                        <input type="radio" name="primary" value="171"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(270, 100%, 50%)" title="Violett">
+                        <input type="radio" name="primary" value="192"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(300, 100%, 50%)" title="Magenta">
+                        <input type="radio" name="primary" value="213"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(330, 100%, 50%)" title="Rosa">
+                        <input type="radio" name="primary" value="235"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(15, 100%, 50%)" title="Rotorange">
+                        <input type="radio" name="primary" value="11"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(45, 100%, 50%)" title="Goldgelb">
+                        <input type="radio" name="primary" value="32"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(75, 100%, 50%)" title="Hellgr&uuml;n">
+                        <input type="radio" name="primary" value="53"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(195, 100%, 50%)" title="Himmelblau">
+                        <input type="radio" name="primary" value="139"/>
+                    </label>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="color-grid">
+                    <label class="color-box" style="background-color: hsl(0, 100%, 50%)" title="Rot">
+                        <input type="radio" name="secondary" value="0"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(30, 100%, 50%)" title="Orange">
+                        <input type="radio" name="secondary" value="21"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(60, 100%, 50%)" title="Gelb">
+                        <input type="radio" name="secondary" value="43"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(90, 100%, 50%)" title="Gelbgr&uuml;n">
+                        <input type="radio" name="secondary" value="64"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(120, 100%, 50%)" title="Gr&uuml;n">
+                        <input type="radio" name="secondary" value="85"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(150, 100%, 50%)" title="Gr&uuml;ncyan">
+                        <input type="radio" name="secondary" value="107"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(180, 100%, 50%)" title="Cyan">
+                        <input type="radio" name="secondary" value="128"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(210, 100%, 50%)" title="Blau">
+                        <input type="radio" name="secondary" value="149"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(240, 100%, 50%)" title="Blauviolett">
+                        <input type="radio" name="secondary" value="171"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(270, 100%, 50%)" title="Violett">
+                        <input type="radio" name="secondary" value="192"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(300, 100%, 50%)" title="Magenta">
+                        <input type="radio" name="secondary" value="213"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(330, 100%, 50%)" title="Rosa">
+                        <input type="radio" name="secondary" value="235"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(15, 100%, 50%)" title="Rotorange">
+                        <input type="radio" name="secondary" value="11"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(45, 100%, 50%)" title="Goldgelb">
+                        <input type="radio" name="secondary" value="32"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(75, 100%, 50%)" title="Hellgr&uuml;n">
+                        <input type="radio" name="secondary" value="53"/>
+                    </label>
+                    <label class="color-box" style="background-color: hsl(195, 100%, 50%)" title="Himmelblau">
+                        <input type="radio" name="secondary" value="139"/>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="control-group">
+                <label for="brightness">Brightness</label>
+                <input type="range" id="brightness" min="12" max="255" value="12"
+                       oninput="updateValue('brightness', this.value)">
+                <div class="value-display"><span id="brightnessValue">12</span></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="control-group">
+                <label for="speed">Animation Speed</label>
+                <input type="range" id="speed" min="1" max="50" value="30"
+                       oninput="updateSpeedValue(this.value)">
+                <div class="value-display"><span id="speedValue">20</span>ms</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="control-group">
+                <label for="sensitivity">Microphone Sensitivity</label>
+                <input type="range" id="sensitivity" min="1" max="50" value="10"
+                       oninput="updateValue('sensitivity', this.value)">
+                <div class="value-display"><span id="sensitivityValue">10</span></div>
+            </div>
+
+            <div class="control-group">
+                <label for="frequency">Microphone Frequency Response</label>
+                <input type="range" id="frequency" min="10" max="200" value="50"
+                       oninput="updateValue('frequency', this.value)">
+                <div class="value-display"><span id="frequencyValue">50</span>ms</div>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <button type="submit">&Uuml;bernehmen</button>
+        </div>
+    </form>
+
+    <div class="card">
+        <div class="header-with-status">
+            <h2>Akku Status (wip)</h2>
+            <div class="battery-status">
+                <span id="batteryStatus">Entladen</span>
+                <span id="chargingIcon" style="display:none;">&#x26A1;</span>
+            </div>
+        </div>
+
+        <div class="battery-info">
+            <div class="battery-icon">
+                <div class="battery-level" id="batteryLevel" style="width:50%"></div>
+            </div>
+            <div>
+                <span id="batteryPercentage">50%</span>
+            </div>
+        </div>
+
+        <div class="battery-stats">
+            <div class="battery-stat">
+                <div class="value" id="batteryVoltage">3.7V</div>
+                <div class="label">Akku-Spannung</div>
+            </div>
+            <div class="battery-stat">
+                <div class="value" id="batteryCurrent">0 mA</div>
+                <div class="label">Ladestrom</div>
+            </div>
+            <div class="battery-stat">
+                <div class="value" id="batteryPower">0 mW</div>
+                <div class="label">Leistung</div>
+            </div>
+            <div class="battery-stat">
+                <div class="value" id="batterySystemVoltage">--</div>
+                <div class="label">System-Spannung</div>
+            </div>
+            <div class="battery-stat">
+                <div class="value" id="batteryBusVoltage">--</div>
+                <div class="label">USB-Spannung</div>
+            </div>
+            <div class="battery-stat">
+                <div class="value" id="batteryChargeStatus">--</div>
+                <div class="label">Lade-Status</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 15px; background: #333; padding: 10px; border-radius: 5px; display: none;">
+            <h3 style="margin-top: 0; color: rgb(0, 191, 255);">Register-Werte</h3>
+            <div id="registerValues" style="font-family: monospace; font-size: 12px; color: #ddd;"></div>
+        </div>
+
+        <div class="control-group">
+            <label for="chargeCurrent">Ladestrom</label>
+            <select id="chargeCurrent" onchange="setChargeCurrent(this.value)">
+                <option value="500">0.5A (500mA)</option>
+                <option value="1000">1.0A (1000mA)</option>
+                <option value="1500" selected>1.5A (1500mA)</option>
+                <option value="2000">2.0A (2000mA)</option>
+            </select>
+        </div>
+
+        <button type="button" id="ledControlButton" class="led-control-button" onclick="toggleLEDs()">LEDs ausschalten</button>
+    </div>
+
+    <div class="card">
+        <div class="log-title">
+            <h2>System Logs</h2>
+            <button onclick="clearLogs()">Clear Logs</button>
+        </div>
+
+        <div class="tab-buttons">
+            <button class="tab-button active" onclick="switchTab('esp')">ESP32 Logs</button>
+            <button class="tab-button" onclick="switchTab('bq')">BQ25895 Logs</button>
+        </div>
+
+        <div id="esp-logs" class="log-container"></div>
+        <div id="bq-logs" class="log-container" style="display: none;"></div>
+    </div>
+
+    <!-- Reboot Button -->
+    <div style="text-align: center; margin-top: 20px;">
+        <button onclick="rebootESP()"
+                style="background: #ff6666; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-size: 12px;">
+            ESP32 Neustart
+        </button>
+    </div>
+</div>
+
+<script>
+    // Globale Variable f&uuml;r den LED-Status
+    let ledsEnabled = true;
+    let currentLogType = 'esp';
+
+    // Puffer f&uuml;r Logs
+    let espLogs = [];
+    let bqLogs = [];
+    const maxLogLines = 100;
+
+    function updateValue(param, value) {
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", `/settings?param=${param}&value=${value}`, true);
+        xhr.send();
+
+        // Update display value
+        const displayElement = document.getElementById(param + 'Value');
+        if (displayElement) {
+            displayElement.textContent = value;
+        }
+    }
+
+    // Spezielle Funktion f&uuml;r invertierte Geschwindigkeit
+    function updateSpeedValue(sliderValue) {
+        // Invertiere den Wert: Slider links (1) = langsam (50ms), Slider rechts (50) = schnell (1ms)
+        const invertedValue = 51 - parseInt(sliderValue);
+
+        // Sende den invertierten Wert an den Server
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", `/settings?param=speed&value=${invertedValue}`, true);
+        xhr.send();
+
+        // Zeige den invertierten Wert in der Anzeige
+        const displayElement = document.getElementById('speedValue');
+        if (displayElement) {
+            displayElement.textContent = invertedValue;
+        }
+    }
+
+    // Neue Farbauswahl-Funktion
+    function setColor(type, hueValue) {
+        // Alle Boxen des entsprechenden Typs zur&uuml;cksetzen (vereinfachter Selektor)
+        let colorBoxes;
+        if (type === 'primary') {
+            // Prim&auml;rfarbe ist die erste Farbgruppe (2. control-group)
+            colorBoxes = document.querySelectorAll('.control-group:nth-child(2) .color-box');
+        } else {
+            // Sekund&auml;rfarbe ist die zweite Farbgruppe (3. control-group)
+            colorBoxes = document.querySelectorAll('.control-group:nth-child(3) .color-box');
+        }
+
+        colorBoxes.forEach(box => box.classList.remove('selected'));
+
+        // Geklickte Box markieren
+        event.target.classList.add('selected');
+
+        // Wert senden
+        const param = type === 'primary' ? 'primaryColor' : 'secondaryColor';
+        const xhr = new XMLHttpRequest();
+        xhr.open("GET", `/settings?param=${param}&value=${hueValue}`, true);
+        xhr.send();
+
+        // Anzeige aktualisieren - ENTFERNT: Farbwerte werden nicht mehr angezeigt
+        // const displayElement = document.getElementById(param + 'Value');
+        // if (displayElement) {
+        //     displayElement.textContent = hueValue;
+        // }
+
+        console.log(`${type} Farbe gesetzt auf: ${hueValue}`);
+    }
+
+    // LED-Steuerung
+    function toggleLEDs() {
+        const button = document.getElementById('ledControlButton');
+        ledsEnabled = !ledsEnabled;
+
+        // Button-Text und -Farbe &auml;ndern
+        if (ledsEnabled) {
+            button.textContent = 'LEDs ausschalten';
+            button.classList.remove('on');
+        } else {
+            button.textContent = 'LEDs einschalten';
+            button.classList.add('on');
+        }
+
+        // API-Anfrage senden
+        fetch(`/toggle-leds?enabled=${ledsEnabled ? 1 : 0}`)
+            .then(response => response.text())
+            .then(result => {
+                console.log('LED-Steuerung: ' + result);
+            })
+            .catch(error => {
+                console.error('Fehler bei LED-Steuerung:', error);
+            });
+    }
+
+    // Initial values - verwende addEventListener statt window.onload
+    document.addEventListener('DOMContentLoaded', function () {
+        fetch('/values')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('mode').value = data.mode;
+                document.getElementById('brightness').value = data.brightness;
+                document.getElementById('brightnessValue').textContent = data.brightness;
+
+                // Invertierte Geschwindigkeit: Server-Wert zu Slider-Wert
+                const serverSpeed = data.speed;
+                const sliderSpeed = 51 - serverSpeed; // Invertierung
+                document.getElementById('speed').value = sliderSpeed;
+                document.getElementById('speedValue').textContent = serverSpeed;
+
+                document.getElementById('sensitivity').value = data.sensitivity;
+                document.getElementById('sensitivityValue').textContent = data.sensitivity;
+                document.getElementById('frequency').value = data.frequency;
+                document.getElementById('frequencyValue').textContent = data.frequency;
+
+                // Neue Farbwerte laden und Boxen markieren
+                if (data.primaryColor !== undefined) {
+                    // Entsprechende Farbbox markieren
+                    const primaryBoxes = document.querySelectorAll('.control-group:nth-child(2) .color-box');
+                    const primaryIndex = Math.floor(data.primaryColor / 16);
+                    if (primaryBoxes[primaryIndex]) {
+                        primaryBoxes[primaryIndex].classList.add('selected');
+                    }
+                }
+                if (data.secondaryColor !== undefined) {
+                    // Entsprechende Farbbox markieren
+                    const secondaryBoxes = document.querySelectorAll('.control-group:nth-child(3) .color-box');
+                    const secondaryIndex = Math.floor(data.secondaryColor / 16);
+                    if (secondaryBoxes[secondaryIndex]) {
+                        secondaryBoxes[secondaryIndex].classList.add('selected');
+                    }
+                }
+
+                // LED-Status abrufen und Button aktualisieren
+                if (data.ledsEnabled !== undefined) {
+                    ledsEnabled = data.ledsEnabled;
+                    const button = document.getElementById('ledControlButton');
+                    if (!ledsEnabled) {
+                        button.textContent = 'LEDs einschalten';
+                        button.classList.add('on');
+                    }
+                }
+            });
+
+        // Initiale Akku-Daten abrufen - mit Verz&ouml;gerung um sicherzustellen dass alle Elemente geladen sind
+        setTimeout(function () {
+            updateBatteryInfo();
+            fetchLogs();
+        }, 500);
+
+        // Akku-Daten alle 5 Sekunden aktualisieren (h&auml;ufiger f&uuml;r bessere &Uuml;berwachung)
+        setInterval(updateBatteryInfo, 5000);
+
+        // Logs regelm&auml;ßig abrufen
+        setInterval(fetchLogs, 2000);
+    });
+
+    // ZUS&Auml;TZLICHE SICHERUNG: Starte Akku-Updates auch nach 3 Sekunden falls sie noch nicht laufen
+    setTimeout(function () {
+        console.log('🔄 Starte Backup-Timer f&uuml;r Akku-Updates');
+        updateBatteryInfo();
+        fetchLogs();
+
+        // Starte auch die Intervalle nochmal zur Sicherheit
+        setInterval(updateBatteryInfo, 5000);
+        setInterval(fetchLogs, 2000);
+    }, 3000);
+
+    // Akku-Informationen aktualisieren
+    function updateBatteryInfo() {
+        console.log('🔍 updateBatteryInfo() gestartet');
+        fetch('/battery-status')
+            .then(response => {
+                console.log('🔍 Response erhalten:', response.status, response.statusText);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('🔍 Batterie-Daten erhalten:', data);
+                // Spannungen
+                document.getElementById('batteryVoltage').textContent = data.vbat.toFixed(2) + 'V';
+                document.getElementById('batterySystemVoltage').textContent = data.vsys.toFixed(2) + 'V';
+                document.getElementById('batteryBusVoltage').textContent = data.vbus.toFixed(2) + 'V';
+
+                // Prozentsatz
+                document.getElementById('batteryPercentage').textContent = data.percentage + '%';
+
+                // Batteriestand-Balken aktualisieren
+                const batteryLevel = document.getElementById('batteryLevel');
+                batteryLevel.style.width = data.percentage + '%';
+
+                // Farbe je nach Ladezustand
+                batteryLevel.className = 'battery-level';
+                if (data.percentage < 20) {
+                    batteryLevel.classList.add('critical');
+                } else if (data.percentage < 50) {
+                    batteryLevel.classList.add('low');
+                }
+
+                // Ladezustand
+                const chargingIcon = document.getElementById('chargingIcon');
+                if (data.isCharging) {
+                    chargingIcon.style.display = 'inline';
+                    chargingIcon.innerHTML = '&#x26A1;'; // HTML-kodiertes Blitzsymbol
+                    document.getElementById('batteryStatus').textContent = 'Wird geladen';
+                } else {
+                    chargingIcon.style.display = 'none';
+                    document.getElementById('batteryStatus').textContent = 'Entladen';
+                }
+
+                // Str&ouml;me
+                document.getElementById('batteryCurrent').textContent = data.ichg.toFixed(0) + ' mA';
+
+                // Leistung in Watt anzeigen
+                document.getElementById('batteryPower').textContent = data.power.toFixed(3) + ' W';
+
+                // Status anzeigen
+                document.getElementById('batteryChargeStatus').textContent = data.chargeStatus;
+
+                // Register-Werte anzeigen - ENTFERNT
+                /*
+                if (data.registers) {
+                    let regHtml = '';
+                    for (const [reg, value] of Object.entries(data.registers)) {
+                        regHtml += `<div>${reg}: 0x${value.toString(16).padStart(2, '0')} (${value})</div>`;
+                    }
+                    document.getElementById('registerValues').innerHTML = regHtml;
+                }
+                */
+            })
+            .catch(error => {
+                console.error('❌ Fehler beim Abrufen der Akku-Daten:', error);
+                // Fallback-Anzeige bei Fehlern
+                document.getElementById('batteryVoltage').textContent = 'Fehler';
+                document.getElementById('batteryPercentage').textContent = '?%';
+            });
+    }
+
+    // Funktion f&uuml;r Ladestrom-Anpassung
+    function setChargeCurrent(mA) {
+        fetch(`/set-charge-current?current=${mA}`)
+            .then(response => response.text())
+            .then(result => {
+                console.log('Ladestrom ge&auml;ndert: ' + result);
+                addLogEntry('esp', 'Ladestrom auf ' + mA + ' mA gesetzt');
+            })
+            .catch(error => {
+                console.error('Fehler bei Ladestrom-Einstellung:', error);
+            });
+    }
+
+    // Log-Tab wechseln
+    function switchTab(logType) {
+        document.getElementById('esp-logs').style.display = logType === 'esp' ? 'block' : 'none';
+        document.getElementById('bq-logs').style.display = logType === 'bq' ? 'block' : 'none';
+
+        const buttons = document.querySelectorAll('.tab-button');
+        buttons.forEach(btn => {
+            btn.classList.remove('active');
+        });
+
+        const activeButton = Array.from(buttons).find(btn =>
+            btn.textContent.toLowerCase().includes(logType));
+        if (activeButton) {
+            activeButton.classList.add('active');
+        }
+
+        currentLogType = logType;
+    }
+
+    // Logs l&ouml;schen
+    function clearLogs() {
+        if (currentLogType === 'esp') {
+            espLogs = [];
+            document.getElementById('esp-logs').innerHTML = '';
+        } else {
+            bqLogs = [];
+            document.getElementById('bq-logs').innerHTML = '';
+        }
+
+        // Auch auf dem Server l&ouml;schen
+        fetch('/clear-logs?type=' + currentLogType)
+            .then(response => response.text())
+            .then(result => {
+                console.log('Logs gel&ouml;scht: ' + result);
+            });
+    }
+
+    // Lokaler Log-Eintrag hinzuf&uuml;gen
+    function addLogEntry(type, message) {
+        const timestamp = new Date().toLocaleTimeString();
+        const logEntry = `[${timestamp}] ${message}`;
+
+        if (type === 'esp') {
+            espLogs.push(logEntry);
+            if (espLogs.length > maxLogLines) {
+                espLogs.shift(); // &Auml;ltesten Eintrag entfernen
+            }
+            updateLogDisplay('esp-logs', espLogs);
+        } else {
+            bqLogs.push(logEntry);
+            if (bqLogs.length > maxLogLines) {
+                bqLogs.shift();
+            }
+            updateLogDisplay('bq-logs', bqLogs);
+        }
+    }
+
+    // Log-Anzeige aktualisieren
+    function updateLogDisplay(containerId, logs) {
+        const container = document.getElementById(containerId);
+        const wasScrolledToBottom = container.scrollHeight - container.scrollTop === container.clientHeight;
+
+        container.innerHTML = logs.join('<br>');
+
+        // Nur scrollen wenn vorher am Ende war
+        if (wasScrolledToBottom) {
+            container.scrollTop = container.scrollHeight;
+        }
+    }
+
+    // Logs vom Server abrufen
+    function fetchLogs() {
+        console.log('🔍 fetchLogs() gestartet');
+        fetch('/get-logs')
+            .then(response => {
+                console.log('🔍 Logs Response:', response.status, response.statusText);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('🔍 Log-Daten erhalten:', data);
+                if (data.esp && data.esp.length > 0) {
+                    espLogs = data.esp;
+                    updateLogDisplay('esp-logs', espLogs);
+                }
+
+                if (data.bq && data.bq.length > 0) {
+                    bqLogs = data.bq;
+                    updateLogDisplay('bq-logs', bqLogs);
+                }
+            })
+            .catch(error => {
+                console.error('❌ Fehler beim Abrufen der Logs:', error);
+            });
+    }
+
+    // ESP32 Neustart-Funktion
+    function rebootESP() {
+        if (confirm('ESP32 wirklich neu starten? Die Verbindung wird kurz unterbrochen.')) {
+            fetch('/reboot')
+                .then(response => response.text())
+                .then(result => {
+                    alert('ESP32 wird neu gestartet. Bitte warten Sie 10-15 Sekunden und laden Sie die Seite neu.');
+                })
+                .catch(error => {
+                    console.error('Fehler beim Neustart:', error);
+                    alert('Neustart wurde gesendet. Bitte warten Sie 10-15 Sekunden und laden Sie die Seite neu.');
+                });
+        }
+    }
+
+    function updateDisplay() {
+        // Daten direkt als einfaches Objekt zusammenstellen
+        const name = document.getElementById('name').value;
+        const description = document.getElementById('description').value;
+        const telegram = document.getElementById('telegram').value;
+        const invertColors = document.getElementById('invertColors').checked;
+        const nameColorRed = document.getElementById('nameColorRed').checked;
+
+        // Erst das Bild hochladen, falls vorhanden
+        if (imageData) {
+            const formData = new FormData();
+
+            // Konvertiere Base64 zu Blob
+            const byteCharacters = atob(imageData.split(',')[1]);
+            const byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            const byteArray = new Uint8Array(byteNumbers);
+            const blob = new Blob([byteArray], {type: 'image/jpeg'});
+
+            formData.append('image', blob, 'badge_image.jpg');
+
+            fetch('/upload-image', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(result => {
+                    if (result === 'OK') {
+                        console.log('Bild erfolgreich hochgeladen');
+                        // Nach erfolgreichem Bild-Upload die anderen Daten aktualisieren
+                        updateDisplayData(name, description, telegram, invertColors, nameColorRed);
+                    } else {
+                        alert('Fehler beim Hochladen des Bildes!');
+                    }
+                })
+                .catch(error => {
+                    console.error('Fehler beim Bild-Upload:', error);
+                    alert('Fehler beim Hochladen des Bildes!');
+                });
+        } else {
+            // Kein Bild, direkt die Daten aktualisieren
+            updateDisplayData(name, description, telegram, invertColors, nameColorRed);
+        }
+    }
+
+    function updateDisplayData(name, description, telegram, invertColors, nameColorRed) {
+        // Verwende ein einfaches GET wie beim simple-update Endpunkt, der funktioniert
+        const url = `/simple-update?name=${encodeURIComponent(name)}&description=${encodeURIComponent(description)}&telegram=${encodeURIComponent(telegram)}&invert=${invertColors ? '1' : '0'}&nameRed=${nameColorRed ? '1' : '0'}`;
+
+        fetch(url)
+            .then(response => response.text())
+            .then(result => {
+                if (result.includes("Simple Update")) {
+                    alert('Display wird aktualisiert, Bitte warten...');
+                } else {
+                    alert('Fehler beim Aktualisieren!');
+                }
+            });
+    }
+
+    function testDisplay() {
+        if (isLowBattery) {
+            alert('Display-Update wegen niedriger Batterie nicht m&ouml;glich');
+            return;
+        }
+
+        fetch('/test-display')
+            .then(response => response.text())
+            .then(result => {
+                if (result === 'OK') {
+                    alert('Display-Test wurde gestartet!');
+                } else {
+                    alert('Fehler beim Display-Test!');
+                }
+            });
+    }
+
+    function clearDisplay() {
+        if (isLowBattery) {
+            alert('Display-Update wegen niedriger Batterie nicht m&ouml;glich');
+            return;
+        }
+
+        fetch('/clear-display')
+            .then(response => response.text())
+            .then(result => {
+                if (result === 'OK') {
+                    alert('Display wurde geleert!');
+                    // Formularfelder leeren
+                    document.getElementById('name').value = '';
+                    document.getElementById('description').value = '';
+                    document.getElementById('telegram').value = '';
+                    document.getElementById('invertColors').checked = false;
+                    document.getElementById('nameColorRed').checked = true;  // Standard: Rot
+                    previewImg.style.display = 'none';
+                    noImageText.style.display = 'block';
+                    imageData = null;
+                    imageUpload.value = '';
+                } else {
+                    alert('Fehler beim leeren des Displays!');
+                }
+            });
+    }
+
+    function deleteImage() {
+        if (confirm('Bild wirklich l&ouml;schen?')) {
+            fetch('/delete-image')
+                .then(response => response.text())
+                .then(result => {
+                    if (result === 'OK') {
+                        alert('Bild wurde erfolgreich gel&ouml;scht!');
+                        previewImg.style.display = 'none';
+                        noImageText.style.display = 'block';
+                        imageData = null;
+                        imageUpload.value = '';
+                    } else {
+                        alert('Fehler beim L&ouml;schen des Bildes!');
+                    }
+                });
+        }
+    }
+
+    // Lade aktuelle Werte
+    window.onload = function () {
+        fetch('/network-values')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('apname').value = data.apname || 'LED-Badge';
+                document.getElementById('appassword').value = data.appassword || '';
+                document.getElementById('wifiSSID').value = data.wifiSSID || '';
+                document.getElementById('wifiPassword').value = data.wifiPassword || '';
+                document.getElementById('wifiEnabled').value = data.wifiEnabled || 'true';
+                document.getElementById('macaddress').value = data.macAddress || '';
+                document.getElementById('deviceid').value = data.deviceID || '';
+                document.getElementById('otaEnabled').value = data.otaEnabled || 'true';
+                document.getElementById('currentVersion').value = data.currentVersion || 'Unbekannt';
+                document.getElementById('otaStatus').value = data.otaStatus || 'Nicht verbunden';
+            });
+    }
+
+    function checkForUpdates() {
+        const button = document.querySelector('button[onclick="checkForUpdates()"]');
+        button.textContent = 'Pr&uuml;fe Updates...';
+        button.disabled = true;
+
+        fetch('/check-updates', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    if (result.updateAvailable) {
+                        if (confirm('Update verf&uuml;gbar! M&ouml;chten Sie es jetzt installieren?')) {
+                            installUpdate();
+                        } else {
+                            button.textContent = 'Updates pr&uuml;fen und installieren';
+                            button.disabled = false;
+                        }
+                    } else {
+                        alert('Kein Update verf&uuml;gbar.');
+                        button.textContent = 'Updates pr&uuml;fen und installieren';
+                        button.disabled = false;
+                    }
+                } else {
+                    alert('Fehler beim Pr&uuml;fen der Updates: ' + result.message);
+                    button.textContent = 'Updates pr&uuml;fen und installieren';
+                    button.disabled = false;
+                }
+            })
+            .catch(error => {
+                alert('Fehler beim Pr&uuml;fen der Updates: ' + error);
+                button.textContent = 'Updates pr&uuml;fen und installieren';
+                button.disabled = false;
+            });
+    }
+
+    function installUpdate() {
+        const button = document.querySelector('button[onclick="checkForUpdates()"]');
+        button.textContent = 'Installiere Update...';
+
+        fetch('/install-update', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert('Update wird installiert. Das Ger&auml;t startet neu...');
+                    // Warte kurz und dann zur Startseite
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 3000);
+                } else {
+                    alert('Fehler beim Installieren: ' + result.message);
+                    button.textContent = 'Updates pr&uuml;fen und installieren';
+                    button.disabled = false;
+                }
+            })
+            .catch(error => {
+                alert('Fehler beim Installieren: ' + error);
+                button.textContent = 'Updates pr&uuml;fen und installieren';
+                button.disabled = false;
+            });
+    }
+
+    function updateNetwork() {
+        const data = {
+            apname: document.getElementById('apname').value,
+            appassword: document.getElementById('appassword').value,
+            wifiSSID: document.getElementById('wifiSSID').value,
+            wifiPassword: document.getElementById('wifiPassword').value,
+            wifiEnabled: document.getElementById('wifiEnabled').value,
+            otaEnabled: document.getElementById('otaEnabled').value
+        };
+
+        fetch('/update-network', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.text())
+            .then(result => {
+                if (result === 'OK') {
+                    alert('Netzwerk wird aktualisiert. Bitte verbinden Sie sich neu mit dem Badge.');
+                } else {
+                    alert('Fehler beim Aktualisieren!');
+                }
+            });
+    }
+</script>
+</body>
+</html>

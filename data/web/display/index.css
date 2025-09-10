@@ -1,0 +1,103 @@
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+.test-button {
+    background: #ff8800 !important;
+}
+.test-button:hover {
+    background: #cc6a00 !important;
+}
+.clear-button {
+    background: #ff4444 !important;
+}
+.clear-button:hover {
+    background: #cc2222 !important;
+}
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+}
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #404040;
+    border: 1px solid var(--primary-color);
+    transition: .4s;
+    border-radius: 30px;
+}
+.toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 3px;
+    background-color: var(--primary-color);
+    transition: .4s;
+    border-radius: 50%;
+}
+input:checked + .toggle-slider {
+    background-color: #205f4d;
+}
+input:checked + .toggle-slider:before {
+    transform: translateX(30px);
+}
+.image-preview {
+    width: 64px;
+    height: 64px;
+    border: 2px solid var(--primary-color);
+    margin: 10px 0;
+    background-color: #404040;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: #aaa;
+}
+.image-preview img {
+    max-width: 100%;
+    max-height: 100%;
+    display: none;
+}
+.file-upload {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-top: 10px;
+}
+.file-upload-input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+.file-upload-button {
+    display: inline-block;
+    background-color: #005f4d;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--primary-color);
+    width: 100%;
+    text-align: center;
+}
+.toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
