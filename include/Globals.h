@@ -1,7 +1,7 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#define VERSION "0.0.0"
+#define VERSION "0.1.0"
 
 #define MAIN_LED_PIN    16
 #define STATUS_LED_PIN  15
