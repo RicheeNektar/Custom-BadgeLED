@@ -6,15 +6,14 @@
 #include "Abstract.h"
 
 struct WifiConfig final : virtual AbstractConfig<WifiConfig> {
-
     const bool enabled;
-    const String ssid;
-    const String password;
+    const char* ssid;
+    const char* password;
 
     WifiConfig(
         const bool enabled,
-        const String ssid,
-        const String password
+        const char* ssid,
+        const char* password
     ):
         enabled(enabled),
         ssid(ssid),

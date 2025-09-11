@@ -10,6 +10,7 @@
 
 // BQ25895 I2C Adresse
 #define BQ25895_ADDRESS 0x6A
+#define I2C_FREQUENCY 1000000 // 1.000,0 Hz
 
 // Register Adressen
 #define REG_00_INPUT_SOURCE_CTRL    0x00
@@ -39,20 +40,44 @@
 #define REG_18_ADC_DIE_TEMP_MSB     0x18
 #define REG_19_ADC_DIE_TEMP_LSB     0x19
 
+enum Temperature {
+    TEMPERATURE_UNKNOWN,
+    TEMPERATURE_FREEZING,
+    TEMPERATURE_COLD,
+    TEMPERATURE_REGULAR,
+    TEMPERATURE_HOT,
+    TEMPERATURE_CRITICAL,
+};
+
+enum ChargeStatus {
+    CHARGE_STATUS_UNKNOWN,
+    CHARGE_STATUS_DISCHARGING,
+    CHARGE_STATUS_PRE_CHARGING,
+    CHARGE_STATUS_CHARGING,
+    CHARGE_STATUS_DONE,
+};
+
 class BQ25895 {
     bool lastVBUSState = false;
     int lastRequestedChargeCurrent = 0;
 
-public:
-    void init();
-
     static bool tryConnect();
-
-    static uint8_t readRegister(uint8_t reg);
 
     static bool writeRegister(uint8_t reg, uint8_t value);
 
+    static uint8_t readRegister(uint8_t reg);
+
+public:
+    static void init();
+
+    static bool setChargeCurrent(uint8_t current);
+
     static bool isVBUSPresent();
+
+    static Temperature getTemperature();
+    static float getTemperatureFloat();
+
+    static ChargeStatus getChargeStatus();
 };
 
 #endif //BQ25895_H

@@ -18,8 +18,8 @@
 #define STATUS_LED_ID_SAO        4
 
 // Mic
-#define MIC_PIN         34
-#define SAMPLES         16
+#define MIC_PIN 34
+#define SAMPLES 16
 
 // Buttons
 #define BOOT_BUTTON_PIN  0
@@ -30,18 +30,18 @@
 #define LIGHT_EN        35
 
 // Status LED Colors
-#define STATUS_RED     CRGB(255, 0, 0)
-#define STATUS_GREEN   CRGB(0, 255, 0)
-#define STATUS_BLUE    CRGB(0, 0, 255)
-#define STATUS_YELLOW  CRGB(255, 255, 0)
-#define STATUS_WHITE   CRGB(255, 255, 255)
+#define STATUS_RED    CRGB(255,   0,   0)
+#define STATUS_GREEN  CRGB(  0, 255,   0)
+#define STATUS_BLUE   CRGB(  0,   0, 255)
+#define STATUS_YELLOW CRGB(255, 255,   0)
+#define STATUS_WHITE  CRGB(255, 255, 255)
 
-#define STATUS_LED_BRIGHTNESS 12
+#define STATUS_LED_BRIGHTNESS 10
 
 // Battery thresholds
-#define WARNING_BATTERY_THRESHOLD 3.5f   // Orange - Warnung
-#define LOW_BATTERY_THRESHOLD 3.3f       // Rot - LEDs ausschalten (Main LEDs)
-#define BOOST_OFF_THRESHOLD 3.0f         // Boost IC abschalten (LIGHT_EN Pin) - User-Anforderung: bei 3.0V komplett aus
-#define DEEP_SLEEP_THRESHOLD 2.9f        // Deep Sleep aktivieren - unter Boost-Off-Schwelle
+#define WARNING_BATTERY_THRESHOLD 3.5f // Orange - Warnung
+#define LOW_BATTERY_THRESHOLD 3.3f     // Rot - LEDs ausschalten (Main LEDs)
+#define BOOST_OFF_THRESHOLD 3.0f       // Boost IC abschalten (LIGHT_EN)
+#define DEEP_SLEEP_THRESHOLD 2.9f      // Deep Sleep aktivieren - unter Boost-Off-Schwelle
 
 #endif //GLOBALS_H

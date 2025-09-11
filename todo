@@ -1,0 +1,11 @@
+core tasks:
+
+ordered by priority, highest to lowest
+
+c0:
+  - Battery Checks
+  - Button Checks
+  - Status LED
+  - LED animation
+
+c1:

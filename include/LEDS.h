@@ -4,13 +4,15 @@
 #include <crgb.h>
 
 #include "Globals.h"
+#include "animation/Abstract.h"
 
 struct LEDS {
-    static void init();
-    static void mainStatusLoop();
+    void init();
+    void mainStatusLoop();
 };
 
-extern LEDS* Leds;
+extern LEDS LEDs;
+extern AbstractAnimation* animation;
 
 extern CRGB mainLeds[NUM_MAIN_LEDS];
 extern CRGB statusLeds[NUM_STATUS_LEDS];

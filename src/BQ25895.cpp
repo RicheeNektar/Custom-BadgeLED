@@ -4,25 +4,81 @@
 #include <Wire.h>
 #include <Arduino.h>
 
+void BQ25895::init() {
+    Wire.begin(SDA_PIN, SCL_PIN);
+    Wire.setClock(I2C_FREQUENCY);
+    Wire.setTimeOut(200); // ms
+
+    if (!tryConnect()) {
+        throw std::runtime_error("Could not connect to BQ25895");
+    }
+
+    // Set input current
+    if (writeRegister(REG_00_INPUT_SOURCE_CTRL, 0x30 /* 1500mA */)) {
+        Logs::add("Could not set IN current", LOG_CHANNEL_CHARGER);
+    }
+
+    // ADC
+    if (!writeRegister(REG_07_MONITOR_CTRL, 0x95)) {
+        Logs::add("Could not enable ADC", LOG_CHANNEL_CHARGER);
+    }
+
+    // Thermal safety
+    if (!writeRegister(REG_06_IR_COMP_THERM_CTRL, 0x32)) {
+        Logs::add("Could not enable TS", LOG_CHANNEL_CHARGER);
+    }
+
+    // Disable JEITA
+    if (!writeRegister(REG_05_CHARGE_TERM_TIMER, 0x00)) {
+        Logs::add("Could not disable JEITA", LOG_CHANNEL_CHARGER);
+    }
+
+    // Set SYS min voltage
+    if (!writeRegister(REG_03_PRECHG_TERM_CURRENT, 0x1A /* 3.3V */)) {
+        Logs::add("Could not set SYS min V", LOG_CHANNEL_CHARGER);
+    }
+
+    // Disable safety timer
+    if (!writeRegister(REG_01_POWER_ON_CONFIG, 0x3C)) {
+        Logs::add("Could not disable safety timer", LOG_CHANNEL_CHARGER);
+    }
+
+    // Disable watchdog
+    if (!writeRegister(REG_08_SYS_FUNCTION_CTRL, 0x7A)) {
+        Logs::add("Could not disable watchdog", LOG_CHANNEL_CHARGER);
+    }
+
+    // Disable stat-pin blink
+    const uint8_t reg0A = readRegister(REG_0A_MISC_OPERATION_CTRL);
+    if (reg0A != 0xFF) {
+        if (!writeRegister(REG_0A_MISC_OPERATION_CTRL, reg0A &~ 0x08)) {
+            Logs::add("Could not disable stat-pin blink", LOG_CHANNEL_CHARGER);
+        }
+    }
+}
+
+bool BQ25895::setChargeCurrent(const uint8_t current) {
+    return writeRegister(REG_02_CHARGE_CURRENT_CTRL, current);
+}
+
 bool BQ25895::tryConnect() {
     try {
         Wire.beginTransmission(BQ25895_ADDRESS);
         return 0 == Wire.endTransmission();
     } catch (...) {
-        Serial.println("❌ Fehler bei I2C-Kommunikation");
-        Logs::add("KRITISCHER FEHLER: I2C-Kommunikation fehlgeschlagen");
+        Logs::add("I2C Comm error", LOG_CHANNEL_CHARGER);
         return false;
     }
 }
 
 bool BQ25895::isVBUSPresent() {
-    uint8_t stat = readRegister(0x0B);
-    return (stat != 0xFF && (stat & 0xE0));
+    const uint8_t stat = readRegister(REG_08_SYS_FUNCTION_CTRL);
+    return stat != 0xFF
+        && stat  & 0xE0;
 }
 
-bool BQ25895::writeRegister(uint8_t reg, uint8_t value) {
+bool BQ25895::writeRegister(const uint8_t reg, const uint8_t value) {
     try {
-        
         Wire.beginTransmission(BQ25895_ADDRESS);
         Wire.write(reg);
         Wire.write(value);
@@ -41,7 +97,7 @@ bool BQ25895::writeRegister(uint8_t reg, uint8_t value) {
     }
 }
 
-uint8_t BQ25895::readRegister(uint8_t reg) {
+uint8_t BQ25895::readRegister(const uint8_t reg) {
     Wire.beginTransmission(BQ25895_ADDRESS);
     Wire.write(reg);
 
@@ -59,4 +115,58 @@ uint8_t BQ25895::readRegister(uint8_t reg) {
     return Wire.read();
 }
 
+ChargeStatus BQ25895::getChargeStatus() {
+    const uint8_t status = readRegister(REG_0B_SYSTEM_STATUS);
+    if (status == 0xFF) {
+        return CHARGE_STATUS_UNKNOWN;
+    }
 
+    const uint8_t chargeStatus = status >> 6 & 0x03;
+    switch (chargeStatus) {
+        case 0:
+            return CHARGE_STATUS_DISCHARGING;
+        case 1:
+            return CHARGE_STATUS_PRE_CHARGING;
+        case 2:
+            return CHARGE_STATUS_CHARGING;
+        case 3:
+            return CHARGE_STATUS_DONE;
+        default:
+            Logs::addf(LOG_CHANNEL_CHARGER, "Unknown status %02X", status);
+            return CHARGE_STATUS_UNKNOWN;
+    }
+}
+
+Temperature BQ25895::getTemperature() {
+    const uint8_t status = readRegister(REG_0B_SYSTEM_STATUS);
+
+    switch (status) {
+        case 0:
+            return TEMPERATURE_REGULAR;
+        case 1:
+            return TEMPERATURE_FREEZING;
+        case 2:
+            return TEMPERATURE_COLD;
+        case 3:
+            return TEMPERATURE_HOT;
+        case 4:
+            return TEMPERATURE_CRITICAL;
+        default:
+            Logs::addf(LOG_CHANNEL_CHARGER, "Unknown status %02X", status);
+            // Fallthrough
+        case 0xFF:
+            return TEMPERATURE_UNKNOWN;
+    }
+}
+
+float BQ25895::getTemperatureFloat() {
+    const uint8_t msb = readRegister(REG_18_ADC_DIE_TEMP_MSB);
+    const uint8_t lsb = readRegister(REG_19_ADC_DIE_TEMP_LSB);
+
+    if (msb == 0xFF || lsb == 0xFF) {
+        return -1.0f;
+    }
+
+    const uint16_t raw = msb << 8 | lsb;
+    return 0.465f * raw - 273.15f; // 0.465°C pro LSB, Offset -273.15°C
+}

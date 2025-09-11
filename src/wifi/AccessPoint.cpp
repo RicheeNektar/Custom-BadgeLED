@@ -1,24 +1,26 @@
-#include "wifi/AP.h"
+#include "wifi/AccessPoint.h"
 
 #include <WiFi.h>
 
-void AP::restart() {
+void AccessPoint::restart() {
     WiFi.softAPdisconnect(true);
     delete wifiConfig;
     init();
 }
 
-bool AP::init() {
+bool AccessPoint::init() {
     wifiConfig = WifiConfig::load();
 
     if (wifiConfig->enabled) {
+        WiFi.softAPsetHostname("badge.local");
         return WiFi.softAP(
-            wifiConfig->ssid.c_str(),
-            wifiConfig->password.c_str()
+            wifiConfig->ssid,
+            wifiConfig->password
         );
     }
 
     return true;
 }
 
+AccessPoint AP;
 WifiConfig* wifiConfig = nullptr;

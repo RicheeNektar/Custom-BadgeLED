@@ -8,6 +8,6 @@ WifiConfig* WifiConfig::deserialize(const File &file) {
     return new WifiConfig(
         true,
         "Test",
-        "Demo"
+        nullptr
     );
 }

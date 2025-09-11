@@ -4,21 +4,14 @@
 #include <LittleFS.h>
 #include <ElegantOTA.h>
 
-void WebServer::init() {
+void WebServer::registerRoutes() {
     // Static web content
-    webServer.serveStatic("/", LittleFS, "/web");
-
-    // Controllers
-    webServer.on(
-        "/",
-        HTTP_POST,
-        PatchAnimations::handle
-    );
+    _server.serveStatic("/", LittleFS, "/web");
 
     // OTA Handler
-    ElegantOTA.begin(&webServer, "", "");
+    ElegantOTA.begin(&_server, "", "");
 
-    webServer.begin();
+    _server.begin();
 }
 
-AsyncWebServer webServer(443);
+AsyncWebServer _server(80);
