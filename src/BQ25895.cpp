@@ -36,7 +36,7 @@ bool BQ25895::writeRegister(uint8_t reg, uint8_t value) {
         Serial.printf("Register 0x%02X = 0x%02X geschrieben\n", reg, value);
         return true;
     } catch (...) {
-        Logs::addf("Could not write to REG 0x%02X", LOG_CHANNEL_CHARGER, reg);
+        Logs::addf(LOG_CHANNEL_CHARGER, "Could not write to REG 0x%02X", reg);
         return false;
     }
 }

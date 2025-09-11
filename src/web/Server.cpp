@@ -1,11 +1,24 @@
 #include "web/Server.h"
+#include "web/routes/Animations.h"
 
 #include <LittleFS.h>
+#include <ElegantOTA.h>
 
 void WebServer::init() {
-    webServer = new AsyncWebServer(443);
-    webServer->serveStatic("/", LittleFS, "/web");
-    webServer->on("/", HTTP_PATCH, );
+    // Static web content
+    webServer.serveStatic("/", LittleFS, "/web");
+
+    // Controllers
+    webServer.on(
+        "/",
+        HTTP_POST,
+        PatchAnimations::handle
+    );
+
+    // OTA Handler
+    ElegantOTA.begin(&webServer, "", "");
+
+    webServer.begin();
 }
 
-AsyncWebServer* webServer;
+AsyncWebServer webServer(443);

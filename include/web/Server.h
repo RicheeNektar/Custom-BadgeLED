@@ -7,6 +7,6 @@ struct WebServer {
     static void init();
 };
 
-extern AsyncWebServer* webServer;
+extern AsyncWebServer webServer;
 
 #endif //SERVER_H

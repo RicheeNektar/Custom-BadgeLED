@@ -10,6 +10,13 @@
 #define LED_TYPE        WS2812B
 #define COLOR_ORDER     GRB
 
+// statusLed[] Indexes
+#define STATUS_LED_ID_MAIN       0
+#define STATUS_LED_ID_MODE       1
+#define STATUS_LED_ID_COLOR      2
+#define STATUS_LED_ID_BRIGHTNESS 3
+#define STATUS_LED_ID_SAO        4
+
 // Mic
 #define MIC_PIN         34
 #define SAMPLES         16

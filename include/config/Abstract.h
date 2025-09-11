@@ -5,9 +5,6 @@
 #include <WString.h>
 
 template<class T>
-struct AbstractConfig;
-
-template<class T>
 struct AbstractConfig {
     virtual ~AbstractConfig() = default;
 
@@ -24,7 +21,7 @@ protected:
         throw std::runtime_error("Not implemented");
     }
 
-    virtual T& deserialize(const File& file) const {
+    static T* deserialize(const File& file) {
         throw std::runtime_error("Not implemented");
     }
 };

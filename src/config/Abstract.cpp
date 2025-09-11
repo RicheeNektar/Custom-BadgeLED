@@ -1,14 +1,16 @@
 #include "config/Abstract.h"
+#include "config/Wifi.h"
+#include "config/Animation.h"
 
 #include <LittleFS.h>
 
-template<class T>
+template<typename T>
 T* AbstractConfig<T>::load() {
     const String name = T::getContextName();
     File file = LittleFS.open("/config/" + name + ".json", FILE_READ);
 
     try {
-        T obj = T::deserialize(file);
+        T* obj = T::deserialize(file);
         file.close();
         return obj;
     } catch (...) {
@@ -23,11 +25,14 @@ void AbstractConfig<T>::save() {
     File file = LittleFS.open("/config/" + name + ".json", FILE_READ);
 
     try {
-        T obj = T::serialize(file);
+        this->serialize(file);
     } catch (...) {
     }
     file.close();
 }
 
+template WifiConfig* AbstractConfig<WifiConfig>::load();
+template void AbstractConfig<WifiConfig>::save();
 
-
+template AnimationConfig* AbstractConfig<AnimationConfig>::load();
+template void AbstractConfig<AnimationConfig>::save();

@@ -1,12 +1,12 @@
 #ifndef AP_H
 #define AP_H
 
-#include "../config/Wifi.h"
+#include "config/Wifi.h"
 
 struct AP {
     static void restart();
 
-    static void init();
+    static bool init();
 };
 
 extern WifiConfig* wifiConfig;

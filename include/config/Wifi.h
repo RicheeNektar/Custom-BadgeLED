@@ -6,6 +6,7 @@
 #include "Abstract.h"
 
 struct WifiConfig final : virtual AbstractConfig<WifiConfig> {
+
     const bool enabled;
     const String ssid;
     const String password;
@@ -21,10 +22,11 @@ struct WifiConfig final : virtual AbstractConfig<WifiConfig> {
     {}
 
     static String getContextName() {
-        return String("wifi");
+        return "wifi";
     }
 
     void serialize(const File& file) const override;
+    static WifiConfig* deserialize(const File &file);
 };
 
 #endif //WIFICONFIG_H

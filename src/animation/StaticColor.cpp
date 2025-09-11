@@ -1,8 +1,7 @@
 #include "animation/StaticColor.h"
-#include "Globals.h"
 
 void StaticColorAnimation::step() {
-    for (auto i = 0; i < NUM_MAIN_LEDS; i++) {
+    for (auto i = 0; i < ledCount; i++) {
         leds[i] = CHSV(this->config->primaryHue, 255, 255);
     }
 }
