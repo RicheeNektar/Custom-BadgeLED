@@ -1,58 +1,59 @@
 #include "BQ25895.h"
 #include "Logs.h"
+#include "LEDS.h"
 
 #include <Wire.h>
 #include <Arduino.h>
 
 void BQ25895::init() {
-    Wire.begin(SDA_PIN, SCL_PIN);
-    Wire.setClock(I2C_FREQUENCY);
+    Wire.begin(SDA_PIN, SCL_PIN, I2C_FREQUENCY);
     Wire.setTimeOut(200); // ms
 
     if (!tryConnect()) {
-        throw std::runtime_error("Could not connect to BQ25895");
+        Logs::error("Could not connect!", ERROR_BQ25985_CONNECT_FAULT, ERROR_MODULE_BQ25985);
+        return;
     }
 
     // Set input current
     if (writeRegister(REG_00_INPUT_SOURCE_CTRL, 0x30 /* 1500mA */)) {
-        Logs::add("Could not set IN current", LOG_CHANNEL_CHARGER);
+        Logs::error("Could not set IN current", ERROR_BQ25985_SET_IN_CURRENT, ERROR_MODULE_BQ25985);
     }
 
     // ADC
     if (!writeRegister(REG_07_MONITOR_CTRL, 0x95)) {
-        Logs::add("Could not enable ADC", LOG_CHANNEL_CHARGER);
+        Logs::error("Could not enable ADC", ERROR_BQ25985_ADC, ERROR_MODULE_BQ25985);
     }
 
     // Thermal safety
     if (!writeRegister(REG_06_IR_COMP_THERM_CTRL, 0x32)) {
-        Logs::add("Could not enable TS", LOG_CHANNEL_CHARGER);
+        Logs::error("Could not enable TS", ERROR_BQ25985_THERMAL_SENSE, ERROR_MODULE_BQ25985);
     }
 
     // Disable JEITA
     if (!writeRegister(REG_05_CHARGE_TERM_TIMER, 0x00)) {
-        Logs::add("Could not disable JEITA", LOG_CHANNEL_CHARGER);
+        Logs::error("Could not disable JEITA", ERROR_BQ25985_JEITA, ERROR_MODULE_BQ25985);
     }
 
     // Set SYS min voltage
     if (!writeRegister(REG_03_PRECHG_TERM_CURRENT, 0x1A /* 3.3V */)) {
-        Logs::add("Could not set SYS min V", LOG_CHANNEL_CHARGER);
+        Logs::error("Could not set SYS min V", ERROR_BQ25985_SYS_MIN_V, ERROR_MODULE_BQ25985);
     }
 
     // Disable safety timer
     if (!writeRegister(REG_01_POWER_ON_CONFIG, 0x3C)) {
-        Logs::add("Could not disable safety timer", LOG_CHANNEL_CHARGER);
+        Logs::error("Could not disable safety timer", ERROR_BQ25985_SAFETY_TIMER, ERROR_MODULE_BQ25985);
     }
 
     // Disable watchdog
     if (!writeRegister(REG_08_SYS_FUNCTION_CTRL, 0x7A)) {
-        Logs::add("Could not disable watchdog", LOG_CHANNEL_CHARGER);
+        Logs::error("Could not disable watchdog", ERROR_BQ25985_WATCHDOG, ERROR_MODULE_BQ25985);
     }
 
     // Disable stat-pin blink
     const uint8_t reg0A = readRegister(REG_0A_MISC_OPERATION_CTRL);
     if (reg0A != 0xFF) {
         if (!writeRegister(REG_0A_MISC_OPERATION_CTRL, reg0A &~ 0x08)) {
-            Logs::add("Could not disable stat-pin blink", LOG_CHANNEL_CHARGER);
+            Logs::error("Could not disable stat-pin blink", ERROR_BQ25985_STAT_PIN_BLINK, ERROR_MODULE_BQ25985);
         }
     }
 }
@@ -66,7 +67,6 @@ bool BQ25895::tryConnect() {
         Wire.beginTransmission(BQ25895_ADDRESS);
         return 0 == Wire.endTransmission();
     } catch (...) {
-        Logs::add("I2C Comm error", LOG_CHANNEL_CHARGER);
         return false;
     }
 }
@@ -85,16 +85,15 @@ bool BQ25895::writeRegister(const uint8_t reg, const uint8_t value) {
 
         const byte error = Wire.endTransmission();
         if (error != 0) {
-            Serial.printf("❌ I2C Fehler beim Schreiben von Register 0x%02X: %d\n", reg, error);
+            Logs::addf("Could not write to REG 0x%02X: %d", reg, error);
             return false;
         }
-
-        Serial.printf("Register 0x%02X = 0x%02X geschrieben\n", reg, value);
-        return true;
-    } catch (...) {
-        Logs::addf(LOG_CHANNEL_CHARGER, "Could not write to REG 0x%02X", reg);
+    } catch (std::exception& e) {
+        Logs::addf("Could not write to REG 0x%02X: %s", reg, e.what());
         return false;
     }
+
+    return true;
 }
 
 uint8_t BQ25895::readRegister(const uint8_t reg) {
@@ -132,7 +131,7 @@ ChargeStatus BQ25895::getChargeStatus() {
         case 3:
             return CHARGE_STATUS_DONE;
         default:
-            Logs::addf(LOG_CHANNEL_CHARGER, "Unknown status %02X", status);
+            Logs::addf("Unknown status %02X", status);
             return CHARGE_STATUS_UNKNOWN;
     }
 }
@@ -152,7 +151,7 @@ Temperature BQ25895::getTemperature() {
         case 4:
             return TEMPERATURE_CRITICAL;
         default:
-            Logs::addf(LOG_CHANNEL_CHARGER, "Unknown status %02X", status);
+            Logs::addf("Unknown status %02X", status);
             // Fallthrough
         case 0xFF:
             return TEMPERATURE_UNKNOWN;

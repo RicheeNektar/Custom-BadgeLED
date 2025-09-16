@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>LED Badge Controller</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="index.css" />
+    <script src="index.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="nav-buttons">
+        <a href="/network">Netzwerk</a>
+        <a href="/display">Display</a>
+        <a href="/update">OTA Update</a>
+    </div>
+
+    <h1>LED Badge Controller</h1>
+
+    <form method="post">
+        <div class="card">
+            <div class="control-group">
+                <label for="mode">LED-Modus</label>
+                <select name="mode" id="mode" oninput="updateValue(mode, this.value)">
+                    <option value="0">Einfarbig</option>
+                    <option value="1">Regenbogen</option>
+                    <option value="2">Regenbogen-Welle</option>
+                    <option value="3">Farbwisch</option>
+                    <option value="4">Theater-Verfolgung</option>
+                    <option value="5">Funkeln</option>
+                    <option value="6">Feuer</option>
+                    <option value="7">Pulsieren</option>
+                    <option value="8">Welle</option>
+                    <option value="9">Glitzern</option>
+                    <option value="10">Gradient</option>
+                    <option value="11">Wandernde Punkte</option>
+                    <option value="12">Komet</option>
+                    <option value="13">Springender Ball</option>
+                    <option value="14">Feuerwerk</option>
+                    <option value="15">Blitz</option>
+                    <option value="16">Konfetti</option>
+                    <option value="17">Atmung</option>
+                    <option value="18">Regen</option>
+                    <option value="19">Matrix</option>
+                    <option value="20">Umlaufbahn</option>
+                    <option value="21">Spirale</option>
+                    <option value="22">Meteorschauer</option>
+                    <option value="23">Farbrotation</option>
+                    <option value="24">Musik-reaktiv</option>
+                </select>
+            </div>
+
+            <div class="control-group">
+                <div class="color-grid" id="primary">
+                </div>
+            </div>
+
+            <div class="control-group">
+                <div class="color-grid" id="secondary">
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="control-group">
+                <label for="brightness">Brightness</label>
+                <input type="range" id="brightness" min="12" max="255" value="12"
+                       oninput="updateValue('brightness', this.value)">
+                <div class="value-display"><span id="brightnessValue">12</span></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="control-group">
+                <label for="speed">Animation Speed</label>
+                <input type="range" id="speed" min="0" max="49" value="30"
+                       oninput="updateSpeedValue(this.value)">
+                <div class="value-display"><span id="speedValue">20</span>ms</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="control-group">
+                <label for="sensitivity">Microphone Sensitivity</label>
+                <input type="range" id="sensitivity" min="1" max="50" value="10"
+                       oninput="updateValue('sensitivity', this.value)">
+                <div class="value-display"><span id="sensitivityValue">10</span></div>
+            </div>
+
+            <div class="control-group">
+                <label for="frequency">Microphone Frequency Response</label>
+                <input type="range" id="frequency" min="10" max="200" value="50"
+                       oninput="updateValue('frequency', this.value)">
+                <div class="value-display"><span id="frequencyValue">50</span>ms</div>
+            </div>
+        </div>
+
+        <div class="control-group">
+            <button type="submit">&Uuml;bernehmen</button>
+        </div>
+    </form>
+
+    <div class="card">
+        <div class="header-with-status">
+            <h2>Akku Status (wip)</h2>
+            <div class="battery-status">
+                <span id="batteryStatus">Entladen</span>
+                <span id="chargingIcon" style="display:none;">&#x26A1;</span>
+            </div>
+        </div>
+
+        <div class="battery-info">
+            <div class="battery-icon">
+                <div class="battery-level" id="batteryLevel" style="width:50%"></div>
+            </div>
+            <div>
+                <span id="batteryPercentage">50%</span>
+            </div>
+        </div>
+
+        <div class="battery-stats">
+            <div class="battery-stat">
+                <div class="value" id="batteryVoltage">3.7V</div>
+                <div class="label">Akku-Spannung</div>
+            </div>
+            <div class="battery-stat">
+                <div class="value" id="batteryCurrent">0 mA</div>
+                <div class="label">Ladestrom</div>
+            </div>
+            <div class="battery-stat">
+                <div class="value" id="batteryPower">0 mW</div>
+                <div class="label">Leistung</div>
+            </div>
+            <div class="battery-stat">
+                <div class="value" id="batterySystemVoltage">--</div>
+                <div class="label">System-Spannung</div>
+            </div>
+            <div class="battery-stat">
+                <div class="value" id="batteryBusVoltage">--</div>
+                <div class="label">USB-Spannung</div>
+            </div>
+            <div class="battery-stat">
+                <div class="value" id="batteryChargeStatus">--</div>
+                <div class="label">Lade-Status</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 15px; background: #333; padding: 10px; border-radius: 5px; display: none;">
+            <h3 style="margin-top: 0; color: rgb(0, 191, 255);">Register-Werte</h3>
+            <div id="registerValues" style="font-family: monospace; font-size: 12px; color: #ddd;"></div>
+        </div>
+
+        <div class="control-group">
+            <label for="chargeCurrent">Ladestrom</label>
+            <select id="chargeCurrent" onchange="setChargeCurrent(this.value)">
+                <option value="500">0.5A (500mA)</option>
+                <option value="1000">1.0A (1000mA)</option>
+                <option value="1500" selected>1.5A (1500mA)</option>
+                <option value="2000">2.0A (2000mA)</option>
+            </select>
+        </div>
+
+        <button type="button" id="ledControlButton" class="led-control-button" onclick="toggleLEDs()">LEDs ausschalten</button>
+    </div>
+
+    <div class="card">
+        <div class="log-title">
+            <h2>System Logs</h2>
+            <button onclick="clearLogs()">Clear Logs</button>
+        </div>
+
+        <div class="tab-buttons">
+            <button class="tab-button active" onclick="switchTab('esp')">ESP32 Logs</button>
+            <button class="tab-button" onclick="switchTab('bq')">BQ25895 Logs</button>
+        </div>
+
+        <div id="esp-logs" class="log-container"></div>
+        <div id="bq-logs" class="log-container" style="display: none;"></div>
+    </div>
+
+    <!-- Reboot Button -->
+    <div style="text-align: center; margin-top: 20px;">
+        <button onclick="rebootESP()"
+                style="background: #ff6666; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; font-size: 12px;">
+            ESP32 Neustart
+        </button>
+    </div>
+</div>
+</body>
+</html>

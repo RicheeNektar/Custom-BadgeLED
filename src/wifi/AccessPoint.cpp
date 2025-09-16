@@ -1,18 +1,24 @@
 #include "wifi/AccessPoint.h"
 
 #include <WiFi.h>
+#include <ESPmDNS.h>
 
-void AccessPoint::restart() {
-    WiFi.softAPdisconnect(true);
+#include "Globals.h"
+#include "Logs.h"
+
+bool AccessPoint::restart() {
     delete wifiConfig;
-    init();
-}
-
-bool AccessPoint::init() {
     wifiConfig = WifiConfig::load();
 
+    if (wifiConfig == nullptr) {
+        Logs::errorf(ERROR_AP_INIT, ERROR_MODULE_AP, "Failed to load config");
+        return WiFi.softAP(
+            "LED-Badge fallback",
+            nullptr
+        );
+    }
+
     if (wifiConfig->enabled) {
-        WiFi.softAPsetHostname("badge.local");
         return WiFi.softAP(
             wifiConfig->ssid,
             wifiConfig->password
@@ -22,5 +28,9 @@ bool AccessPoint::init() {
     return true;
 }
 
-AccessPoint AP;
+bool AccessPoint::init() {
+    return restart()
+        && MDNS.begin("badge");
+}
+
 WifiConfig* wifiConfig = nullptr;

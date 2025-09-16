@@ -4,12 +4,11 @@
 #include "config/Wifi.h"
 
 struct AccessPoint {
-    void restart();
+    static bool restart();
 
-    bool init();
+    static bool init();
 };
 
-extern AccessPoint AP;
 extern WifiConfig* wifiConfig;
 
 #endif //AP_H

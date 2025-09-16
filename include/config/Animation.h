@@ -34,7 +34,11 @@ struct AnimationConfig final : virtual AbstractConfig<AnimationConfig> {
         return String("animation");
     }
 
-    void serialize(const File& file) const override;
+    void serialize(File& file) const override;
+
+    static AnimationConfig* deserialize(File& file);
+
+    static AnimationConfig* standard();
 };
 
 #endif //ANIMATION_CONFIG_H

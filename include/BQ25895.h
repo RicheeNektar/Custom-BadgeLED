@@ -10,7 +10,7 @@
 
 // BQ25895 I2C Adresse
 #define BQ25895_ADDRESS 0x6A
-#define I2C_FREQUENCY 1000000 // 1.000,0 Hz
+#define I2C_FREQUENCY 50000 // 50kHz
 
 // Register Adressen
 #define REG_00_INPUT_SOURCE_CTRL    0x00
@@ -58,9 +58,6 @@ enum ChargeStatus {
 };
 
 class BQ25895 {
-    bool lastVBUSState = false;
-    int lastRequestedChargeCurrent = 0;
-
     static bool tryConnect();
 
     static bool writeRegister(uint8_t reg, uint8_t value);

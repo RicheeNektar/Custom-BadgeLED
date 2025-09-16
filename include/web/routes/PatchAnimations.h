@@ -3,7 +3,7 @@
 
 #include <ESPAsyncWebServer.h>
 
-struct PatchAnimations {
+struct PatchAnimations final {
     static void handle(AsyncWebServerRequest* request);
 };
 

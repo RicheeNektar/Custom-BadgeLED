@@ -4,7 +4,7 @@
 #include <ESPAsyncWebServer.h>
 
 struct WebServer {
-    static void registerRoutes();
+    static void init();
 };
 
 extern AsyncWebServer _server;

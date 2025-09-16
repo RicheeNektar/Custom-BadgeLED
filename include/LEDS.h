@@ -1,17 +1,18 @@
 #ifndef LEDS_H
 #define LEDS_H
 
-#include <crgb.h>
-
 #include "Globals.h"
 #include "animation/Abstract.h"
 
+#include <crgb.h>
+
 struct LEDS {
-    void init();
-    void mainStatusLoop();
+    static void init();
+    static void mainStatusLoop();
+
+    static void error(uint8_t code, CRGB moduleColor);
 };
 
-extern LEDS LEDs;
 extern AbstractAnimation* animation;
 
 extern CRGB mainLeds[NUM_MAIN_LEDS];

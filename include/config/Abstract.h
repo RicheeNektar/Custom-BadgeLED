@@ -1,8 +1,9 @@
 #ifndef ABSTRACT_CONFIG_H
 #define ABSTRACT_CONFIG_H
 
-#include <FS.h>
 #include <WString.h>
+#include <ArduinoJson.h>
+#include <FS.h>
 
 template<class T>
 struct AbstractConfig {
@@ -17,11 +18,15 @@ protected:
         throw std::runtime_error("Not implemented");
     }
 
-    virtual void serialize(const File& file) const {
+    virtual void serialize(File& file) const {
         throw std::runtime_error("Not implemented");
     }
 
-    static T* deserialize(const File& file) {
+    static T* deserialize(File& file) {
+        throw std::runtime_error("Not implemented");
+    }
+
+    static T* standard() {
         throw std::runtime_error("Not implemented");
     }
 };

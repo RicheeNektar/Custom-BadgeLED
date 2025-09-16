@@ -1,9 +1,9 @@
 #ifndef WIFICONFIG_H
 #define WIFICONFIG_H
 
-#include <WString.h>
-
 #include "Abstract.h"
+
+#include <WString.h>
 
 struct WifiConfig final : virtual AbstractConfig<WifiConfig> {
     const bool enabled;
@@ -20,12 +20,20 @@ struct WifiConfig final : virtual AbstractConfig<WifiConfig> {
         password(password)
     {}
 
+    ~WifiConfig() override {
+        delete[] ssid;
+        delete[] password;
+    };
+
     static String getContextName() {
         return "wifi";
     }
 
-    void serialize(const File& file) const override;
-    static WifiConfig* deserialize(const File &file);
+    void serialize(File& file) const override;
+
+    static WifiConfig* deserialize(File& file);
+
+    static WifiConfig* standard();
 };
 
 #endif //WIFICONFIG_H

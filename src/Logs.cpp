@@ -1,35 +1,44 @@
 #include "Logs.h"
+#include "LEDS.h"
 
 #include <LittleFS.h>
 
-void Logs::rotate(const String& channel) {
-    const auto oldFileName = ("/logs/" + channel + ".old.log").c_str();
+void Logs::rotate() {
+    const String oldFileName = "/logs/old.log";
     LittleFS.remove(oldFileName);
-    LittleFS.rename(("/logs/" + channel + ".log").c_str(), oldFileName);
+    LittleFS.rename("/logs/latest.log", oldFileName);
 }
 
-void Logs::addf(const String& channel, const char* format, ...) {
-    add(format, channel);
+void Logs::addf(const char *format, ...) {
+    add(format);
 }
 
 void Logs::add(const String& message) {
-    add(message, LOG_CHANNEL_DEFAULT);
-}
+    Serial.println(message);
 
-void Logs::add(const String& message, const String& channel) {
-    const String fileName = "logs/" + channel + ".log";
-    File f = LittleFS.open(fileName, "a", true);
+    const String fileName = "/logs/latest.log";
+    File f = LittleFS.open(fileName, FILE_APPEND, true);
 
-    if (LOG_FILE_SIZE_LIMIT >= f.size()) {
+    if (f.size() >= LOG_FILE_SIZE_LIMIT) {
         f.close();
-        rotate(channel);
-        f = LittleFS.open(fileName, "a", true);
+        rotate();
+        f = LittleFS.open(fileName, FILE_APPEND, true);
     }
 
-    const String entry = "[" + String(micros() / 1000) + "s] " + message;
+    const String entry = "[" + String(micros() / 1000) + "ms] " + message + "\r\n";
     f.write(
         reinterpret_cast<const uint8_t *>(entry.c_str()),
         entry.length()
     );
     f.close();
+}
+
+void Logs::errorf(const uint8_t code, const CRGB moduleColor, const char* format, ...) {
+    add(format);
+    LEDS::error(code, moduleColor);
+}
+
+void Logs::error(const String& message, const uint8_t code, const CRGB moduleColor) {
+    add(message);
+    LEDS::error(code, moduleColor);
 }

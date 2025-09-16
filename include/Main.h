@@ -3,6 +3,5 @@
 
 void setup();
 void loop();
-void loop2();
 
 #endif //MAIN_H
