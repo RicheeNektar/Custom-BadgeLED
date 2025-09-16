@@ -15,7 +15,7 @@ void BQ25895::init() {
     }
 
     // Set input current
-    if (writeRegister(REG_00_INPUT_SOURCE_CTRL, 0x30 /* 1500mA */)) {
+    if (!writeRegister(REG_00_INPUT_SOURCE_CTRL, 0x30 /* 1500mA */)) {
         Logs::error("Could not set IN current", ERROR_BQ25985_SET_IN_CURRENT, ERROR_MODULE_BQ25985);
     }
 

@@ -61,13 +61,10 @@ void setup() {
     Serial.println("OK!");
 
     Serial.print("BQ25895 init..");
-    BQ25895::init();
+    // BQ25895::init();
     Serial.println("OK!");
 }
 
 void loop() {
-    if (animation != nullptr) {
-        animation->step();
-    }
-    FastLED.show(STATUS_LED_BRIGHTNESS);
+    LEDS::mainStatusLoop();
 }

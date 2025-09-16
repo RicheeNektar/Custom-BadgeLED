@@ -10,7 +10,7 @@
 
 // BQ25895 I2C Adresse
 #define BQ25895_ADDRESS 0x6A
-#define I2C_FREQUENCY 50000 // 50kHz
+#define I2C_FREQUENCY 100000 // 100kHz
 
 // Register Adressen
 #define REG_00_INPUT_SOURCE_CTRL    0x00

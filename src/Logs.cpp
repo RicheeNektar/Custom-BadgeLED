@@ -9,11 +9,15 @@ void Logs::rotate() {
     LittleFS.rename("/logs/latest.log", oldFileName);
 }
 
-void Logs::addf(const char *format, ...) {
+void Logs::addf(const char* format, ...) {
+    va_list argv;
+    va_start(argv, format);
+    vprintf(format, argv);
+    va_end(argv);
     add(format);
 }
 
-void Logs::add(const String& message) {
+void Logs::add(const String message) {
     Serial.println(message);
 
     const String fileName = "/logs/latest.log";
@@ -34,11 +38,15 @@ void Logs::add(const String& message) {
 }
 
 void Logs::errorf(const uint8_t code, const CRGB moduleColor, const char* format, ...) {
+    va_list argv;
+    va_start(argv, format);
+    vprintf(format, argv);
+    va_end(argv);
     add(format);
     LEDS::error(code, moduleColor);
 }
 
-void Logs::error(const String& message, const uint8_t code, const CRGB moduleColor) {
+void Logs::error(const String message, const uint8_t code, const CRGB moduleColor) {
     add(message);
     LEDS::error(code, moduleColor);
 }

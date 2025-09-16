@@ -2,6 +2,7 @@
 #include "LEDS.h"
 #include "animation/StaticColor.h"
 #include "config/Animation.h"
+#include "animation/Rainbow.h"
 
 #include <FastLED.h>
 
@@ -11,12 +12,12 @@ void LEDS::init() {
 }
 
 void LEDS::mainStatusLoop() {
-    const auto config = AnimationConfig::load();
-
-    animation = new StaticColorAnimation(mainLeds, NUM_MAIN_LEDS, config);
+    if (animation == nullptr) {
+        const AnimationConfig* config = AnimationConfig::load();
+        animation = new RainbowAnimation(mainLeds, NUM_MAIN_LEDS, config);
+    }
     animation->step();
-
-    FastLED.show(config->brightness);
+    FastLED.show(STATUS_LED_BRIGHTNESS);
 }
 
 void LEDS::error(const uint8_t code, const CRGB moduleColor) {
@@ -24,7 +25,6 @@ void LEDS::error(const uint8_t code, const CRGB moduleColor) {
     for (uint8_t i = 1; i < NUM_STATUS_LEDS; i++) {
         statusLeds[i] = (code >> (i-1) & 1) > 0 ? STATUS_GREEN : STATUS_RED;
     }
-    delay(1000);
 }
 
 AbstractAnimation* animation = nullptr;

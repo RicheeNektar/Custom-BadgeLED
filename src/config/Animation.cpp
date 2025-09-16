@@ -5,10 +5,10 @@ AnimationConfig* AnimationConfig::standard() {
         0,
         0,
         128,
-        12,
+        100,
         50,
-        50,
-        10
+        0,
+        180
     );
 }
 
