@@ -1,9 +1,9 @@
 name: PlatformIO CI
 
 on:
-  create:
-    tag:
-      - "v*"
+  push:
+    branches:
+      - master
 
 jobs:
   build:
