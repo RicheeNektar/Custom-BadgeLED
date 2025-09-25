@@ -1,0 +1,25 @@
+name: autotag.yml
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Take version
+        id: version
+        run: |
+          echo 'version=' > $GITHUB_OUTPUT
+          grep -Eo '"(v[^"]+)"' include/Globals.h | sed 's/"//g > $GITHUB_OUTPUT
+
+      - name: Create and push tag
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag ${{ steps.version.outputs.version }}
+          git push origin ${{ steps.version.outputs.version }}

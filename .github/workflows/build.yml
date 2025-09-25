@@ -2,8 +2,8 @@ name: PlatformIO CI
 
 on:
   push:
-    branches:
-      - master
+    tags:
+      - "v*"
 
 jobs:
   build:
@@ -11,9 +11,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Validate code version
-        run: grep -q "${{ github.ref_name }}" include/Globals.h
 
       - uses: actions/cache@v4
         with:
@@ -30,7 +27,23 @@ jobs:
         run: pip install --upgrade platformio
 
       - name: Build PlatformIO Project
-        run: pio run
+        run: pio run && pio run -t buildfs
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: .pio/build/esp32-s3-devkitc-1/{firmware,partitions,bootloader,littlefs}.bin
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: build
 
       - name: Create a Release
         uses: elgohr/Github-Release-Action@v5
