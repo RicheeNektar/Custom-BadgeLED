@@ -5,66 +5,79 @@
 #include "Logs.h"
 #include "web/Server.h"
 #include "wifi/AccessPoint.h"
+#include "task/LEDAnimationTask.h"
+#include "task/ButtonTask.h"
+#include "config/Wifi.h"
 
 #include <Arduino.h>
-#include <FastLED.h>
 #include <LittleFS.h>
 
-void setup() {
-    Serial.begin(115200);
-    Serial.print("Pin init..");
+void setupPins() {
     pinMode(BOOT_BUTTON_PIN, INPUT_PULLUP);
 
-    pinMode(MODE_BUTTON, INPUT);
-    pinMode(COLOR_BUTTON, INPUT);
-    pinMode(BRIGHT_BUTTON, INPUT);
-    pinMode(SAO_BUTTON, INPUT);
+    pinMode(MODE_BUTTON_PIN, INPUT_PULLDOWN);
+    pinMode(COLOR_BUTTON_PIN, INPUT_PULLDOWN);
+    pinMode(BRIGHT_BUTTON_PIN, INPUT_PULLDOWN);
+    pinMode(SAO_BUTTON_PIN, INPUT_PULLDOWN);
 
     pinMode(STATUS_LED_PIN, OUTPUT);
-    pinMode(MAIN_LED_PIN, OUTPUT);
-
-    pinMode(LIGHT_EN, OUTPUT);
-
     digitalWrite(STATUS_LED_PIN, LOW);
+
+    pinMode(MAIN_LED_PIN, OUTPUT);
     digitalWrite(MAIN_LED_PIN, LOW);
 
+    pinMode(LIGHT_EN, OUTPUT);
     digitalWrite(LIGHT_EN, HIGH);
-    Serial.println("OK!");
+}
 
-    // LEDs first since they can "display" error codes
-    Serial.print("LEDs init..");
+void setupTasks() {
+    xTaskCreatePinnedToCore(
+        TaskRun,
+        "ButtonTask",
+        8192,
+        &buttonTask,
+        1,
+        &ButtonTaskHandle,
+        1
+    );
+
+    xTaskCreatePinnedToCore(
+        TaskRun,
+        "LEDAnimationTask",
+        8192,
+        &animationTask,
+        1,
+        &AnimationTaskHandle,
+        1
+    );
+}
+
+void setup() {
+    setupPins();
+
     LEDS::init();
-    Serial.println("OK!");
 
-    Serial.print("FS init..");
-    if (LittleFS.begin()) {
-        Serial.println("OK!");
-    } else {
-        Serial.println("ERR");
+    if (!LittleFS.begin()) {
         LEDS::error(ERROR_FS_INIT, ERROR_MODULE_FS);
         return;
     }
 
-    Logs::add("Rebooted");
+    Logs::add("--[[ REBOOT ]]--");
 
-    Serial.print("AP init..");
-    if (AccessPoint::init()) {
-        Serial.println("OK!");
-    } else {
-        Serial.println("ERR");
+    if (!AccessPoint::init()) {
         Logs::error("AP failed", ERROR_AP_INIT, ERROR_MODULE_AP);
-        return;
     }
 
-    Serial.print("WebServer init..");
     WebServer::init();
-    Serial.println("OK!");
 
-    Serial.print("BQ25895 init..");
-    // BQ25895::init();
-    Serial.println("OK!");
+    BQ25895::init();
+
+    setupTasks();
 }
 
 void loop() {
-    LEDS::mainStatusLoop();
+    LEDS::status(STATUS_LED_ID_MAIN, wifiConfig.enabled ? STATUS_GREEN : STATUS_RED);
+    FastLED[1].showLeds(5);
+
+    vTaskDelay(pdMS_TO_TICKS(50));
 }

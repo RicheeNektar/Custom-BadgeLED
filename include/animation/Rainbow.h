@@ -4,7 +4,6 @@
 #include "Abstract.h"
 
 struct RainbowAnimation final : virtual AbstractAnimation {
-    using AbstractAnimation::AbstractAnimation;
     void step() override;
 };
 

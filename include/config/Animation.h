@@ -1,16 +1,16 @@
 #ifndef ANIMATION_CONFIG_H
 #define ANIMATION_CONFIG_H
 
-#include "Abstract.h"
+#include "AbstractConfig.h"
 
-struct AnimationConfig final : virtual AbstractConfig<AnimationConfig> {
-    const uint8_t mode;
-    const uint8_t brightness;
-    const uint8_t noiseLevel;
-    const uint16_t animationSpeed;
-    const uint16_t micFrequency;
-    const uint8_t primaryHue;
-    const uint8_t secondaryHue;
+struct AnimationConfig final : virtual AbstractConfig {
+    uint8_t mode;
+    uint8_t brightness;
+    uint8_t noiseLevel;
+    uint16_t animationSpeed;
+    uint16_t micFrequency;
+    uint8_t primaryHue;
+    uint8_t secondaryHue;
 
     AnimationConfig(
         const uint8_t mode,
@@ -30,15 +30,19 @@ struct AnimationConfig final : virtual AbstractConfig<AnimationConfig> {
         secondaryHue(secondaryHue)
     {}
 
-    static String getContextName() {
-        return String("animation");
+    const char* getContextName() override {
+        return "animation";
     }
 
     void serialize(File& file) const override;
 
-    static AnimationConfig* deserialize(File& file);
+    void deserialize(File& file) override;
 
-    static AnimationConfig* standard();
+    void defaults() override;
+
+    void nextMode();
 };
+
+extern AnimationConfig animationConfig;
 
 #endif //ANIMATION_CONFIG_H

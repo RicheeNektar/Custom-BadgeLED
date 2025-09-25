@@ -1,47 +1,43 @@
 #include "config/Animation.h"
 
-AnimationConfig* AnimationConfig::standard() {
-    return new AnimationConfig(
-        0,
-        0,
-        128,
-        100,
-        50,
-        0,
-        180
-    );
+AnimationConfig animationConfig{
+    0,
+    10,
+    128,
+    180,
+    50,
+    0,
+    180,
+};
+
+void AnimationConfig::defaults() {
+    this->mode = 0;
+    this->brightness = 10;
+    this->noiseLevel = 128;
+    this->animationSpeed = 100;
+    this->micFrequency = 50;
+    this->primaryHue = 0;
+    this->secondaryHue = 60;
 }
 
-AnimationConfig* AnimationConfig::deserialize(File& file) {
+void AnimationConfig::nextMode() {
+    mode = (mode + 1) % 2;
+}
+
+void AnimationConfig::deserialize(File& file) {
     uint8_t mbuffer[2];
 
     file.read(mbuffer, sizeof(mbuffer));
-    const uint16_t animationSpeed = mbuffer[0] | mbuffer[1] << 8;
+    this->animationSpeed = mbuffer[0] | mbuffer[1] << 8;
 
     file.read(mbuffer, sizeof(mbuffer));
-    const uint16_t micFrequency = mbuffer[0] | mbuffer[1] << 8;
+    this->micFrequency = mbuffer[0] | mbuffer[1] << 8;
 
-    uint8_t brightness;
-    uint8_t mode;
-    uint8_t noiseLevel;
-    uint8_t primaryHue;
-    uint8_t secondaryHue;
-
-    file.read(&brightness, 1);
-    file.read(&mode, 1);
-    file.read(&noiseLevel, 1);
-    file.read(&primaryHue, 1);
-    file.read(&secondaryHue, 1);
-
-    return new AnimationConfig(
-        mode,
-        brightness,
-        noiseLevel,
-        animationSpeed,
-        micFrequency,
-        primaryHue,
-        secondaryHue
-    );
+    file.read(&this->brightness, 1);
+    file.read(&this->mode, 1);
+    file.read(&this->noiseLevel, 1);
+    file.read(&this->primaryHue, 1);
+    file.read(&this->secondaryHue, 1);
 }
 
 void AnimationConfig::serialize(File& file) const {

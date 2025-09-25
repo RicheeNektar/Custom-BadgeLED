@@ -17,9 +17,7 @@ void Logs::addf(const char* format, ...) {
     add(format);
 }
 
-void Logs::add(const String message) {
-    Serial.println(message);
-
+void Logs::add(const String& message) {
     const String fileName = "/logs/latest.log";
     File f = LittleFS.open(fileName, FILE_APPEND, true);
 
@@ -46,7 +44,7 @@ void Logs::errorf(const uint8_t code, const CRGB moduleColor, const char* format
     LEDS::error(code, moduleColor);
 }
 
-void Logs::error(const String message, const uint8_t code, const CRGB moduleColor) {
+void Logs::error(const String& message, const uint8_t code, const CRGB moduleColor) {
     add(message);
     LEDS::error(code, moduleColor);
 }

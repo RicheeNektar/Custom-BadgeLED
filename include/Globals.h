@@ -1,14 +1,35 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#define VERSION "0.3.0"
+#define VERSION "0.5.0"
 
+// Pins
+// LED
+#define LIGHT_EN        35
 #define MAIN_LED_PIN    16
 #define STATUS_LED_PIN  15
-#define NUM_MAIN_LEDS   75
-#define NUM_STATUS_LEDS  5
-#define LED_TYPE        WS2812B
-#define COLOR_ORDER     GRB
+// Display Pins
+#define EINK_SDA  11
+#define EINK_SCL  12
+#define EINK_BUSY 13
+#define EINK_RES   8
+#define EINK_DC    9
+#define EINK_CS   10
+// Buttons
+#define BOOT_BUTTON_PIN   0
+#define MODE_BUTTON_PIN   7
+#define COLOR_BUTTON_PIN  6
+#define BRIGHT_BUTTON_PIN 5
+#define SAO_BUTTON_PIN    4
+
+// Mic
+#define MIC_PIN 34
+#define SAMPLES 16
+
+// Button events
+#define BUTTON_COOLDOWN_m            1000000
+#define BUTTON_LONG_PRESS_COOLDOWN_m  250000
+#define BUTTON_LONG_PRESS_DURATION_m 2000000
 
 // statusLed[] Indexes
 #define STATUS_LED_ID_MAIN       0
@@ -17,19 +38,21 @@
 #define STATUS_LED_ID_BRIGHTNESS 3
 #define STATUS_LED_ID_SAO        4
 
-// Mic
-#define MIC_PIN 34
-#define SAMPLES 16
+// buttons[] Indexes
+#define BUTTON_ID_BOOT 0
+#define BUTTON_ID_MODE 1
+#define BUTTON_ID_COLOR 2
+#define BUTTON_ID_BRIGHTNESS 3
+#define BUTTON_ID_SAO 4
 
-// Buttons
-#define BOOT_BUTTON_PIN  0
-#define MODE_BUTTON      7
-#define COLOR_BUTTON     6
-#define BRIGHT_BUTTON    5
-#define SAO_BUTTON       4
-#define LIGHT_EN        35
+#define NUM_BUTTONS      5
+#define NUM_MAIN_LEDS   75
+#define NUM_STATUS_LEDS  5
+#define LED_TYPE        WS2812B
+#define COLOR_ORDER     GRB
 
 // Status LED Colors
+#define STATUS_OFF    CRGB(  0,   0,   0)
 #define STATUS_RED    CRGB(255,   0,   0)
 #define STATUS_GREEN  CRGB(  0, 255,   0)
 #define STATUS_BLUE   CRGB(  0,   0, 255)
@@ -56,8 +79,9 @@
 #define ERROR_BQ25985_SET_IN_CURRENT 0x1
 #define ERROR_BQ25985_CONNECT_FAULT  0xF
 // FS
-#define ERROR_FS_LOAD 0xC
-#define ERROR_FS_INIT 0xF
+#define ERROR_FS_LOAD  0xC
+#define ERROR_FS_WRITE 0x7
+#define ERROR_FS_INIT  0xF
 // WiFi
 #define ERROR_AP_INIT 0xF
 

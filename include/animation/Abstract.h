@@ -2,21 +2,18 @@
 #define ABSTRACT_ANIMATION_H
 
 #include "config/Animation.h"
-
-#include <crgb.h>
+#include "Lock.h"
 
 struct AbstractAnimation {
-    explicit AbstractAnimation(CRGB* leds, const int ledCount, const AnimationConfig* config): config(config), ledCount(ledCount), leds(leds) {}
-
     virtual ~AbstractAnimation() = default;
 
-    virtual void step();
+    virtual void step() = 0;
 
-protected:
-    const AnimationConfig* config;
-    const int ledCount;
-    CRGB* leds;
+    static void reload();
 };
 
+extern Lock animationLock;
+
+extern AbstractAnimation* animation;
 
 #endif //ABSTRACT_ANIMATION_H

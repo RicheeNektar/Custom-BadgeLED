@@ -2,10 +2,13 @@ core tasks:
 
 ordered by priority, highest to lowest
 
+Status LED: core independent (updated by led anims)
+
 c0:
-  - Battery Checks
+  - Webserver
   - Button Checks
-  - Status LED
-  - LED animation
+  - Display update
 
 c1:
+  - Battery Checks
+  - LED animation
