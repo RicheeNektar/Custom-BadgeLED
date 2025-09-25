@@ -14,7 +14,7 @@ jobs:
       - name: Take version
         id: version
         run: |
-          echo version=$(grep -Eo '"(v[^"]+)"' include/Globals.h | sed 's/"//g')
+          echo version=$(grep -Eo '"(v[^"]+)"' include/Globals.h | sed 's/"//g') > $GITHUB_OUTPUT
 
       - name: Create tag
         uses: actions/github-script@v5
