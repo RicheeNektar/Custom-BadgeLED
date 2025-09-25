@@ -23,32 +23,19 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Take version
+        id: version
+        run: echo version=$(grep -Eo '"(v[^"]+)"' include/Globals.h | sed 's/"//g') > $GITHUB_OUTPUT
+
       - name: Install PlatformIO Core
         run: pip install --upgrade platformio
 
       - name: Build PlatformIO Project
         run: pio run && pio run -t buildfs
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: github.ref_type == 'tag'
         with:
-          name: build
-          path: .pio/build/esp32-s3-devkitc-1/{firmware,partitions,bootloader,littlefs}.bin
-
-  release:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-
-      - name: Create a Release
-        uses: elgohr/Github-Release-Action@v5
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          title: "Release v${{ github.ref_name }}"
-          tag: ${{ github.ref_name }}
+          files: .pio/build/esp32-s3-devkitc-1/{firmware,partitions,bootloader,littlefs}.bin
+          tag_name: ${{ steps.version.outputs.version }}
