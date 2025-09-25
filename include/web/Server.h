@@ -5,6 +5,10 @@
 
 struct WebServer {
     static void init();
+
+    static void start();
+
+    static void stop();
 };
 
 extern AsyncWebServer _server;

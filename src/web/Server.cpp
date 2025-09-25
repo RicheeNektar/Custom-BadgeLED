@@ -19,8 +19,14 @@ void WebServer::init() {
 
     // OTA Handler
     ElegantOTA.begin(&_server, "", "");
+}
 
+void WebServer::start() {
     _server.begin();
+}
+
+void WebServer::stop() {
+    _server.end();
 }
 
 AsyncWebServer _server(80);

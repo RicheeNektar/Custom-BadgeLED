@@ -46,6 +46,7 @@ void Button::onPress() {
 void Button::onRelease() {
     if (pressed) {
         if (0 == debounce) {
+            setLED(STATUS_WHITE);
             debounce = micros();
             onShortPress();
             log_d("Short press");

@@ -11,14 +11,13 @@ CRGB lerp(const CRGB a, const CRGB b, const float t) {
 }
 
 void RotatingGradient::step() {
-    const uint8_t offset = micros() / (animationConfig.animationSpeed * 1000) % NUM_MAIN_LEDS;
-
     CRGB primary;
     hsv2rgb_raw(CHSV(animationConfig.primaryHue, 255, 255), primary);
 
     CRGB secondary;
     hsv2rgb_raw(CHSV(animationConfig.secondaryHue, 255, 255), secondary);
 
+    const uint8_t offset = AbstractAnimation::offset();
 
     for (uint8_t i = 0; i < NUM_MAIN_LEDS; i++) {
         mainLeds[(i + offset) % NUM_MAIN_LEDS] = lerp(

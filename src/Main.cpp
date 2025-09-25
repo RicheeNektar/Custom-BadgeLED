@@ -36,7 +36,7 @@ void setupTasks() {
         "ButtonTask",
         8192,
         &buttonTask,
-        1,
+        2,
         &ButtonTaskHandle,
         1
     );
@@ -64,11 +64,11 @@ void setup() {
 
     Logs::add("--[[ REBOOT ]]--");
 
+    WebServer::init();
+
     if (!AccessPoint::init()) {
         Logs::error("AP failed", ERROR_AP_INIT, ERROR_MODULE_AP);
     }
-
-    WebServer::init();
 
     BQ25895::init();
 

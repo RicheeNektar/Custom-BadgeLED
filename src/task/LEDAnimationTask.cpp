@@ -16,7 +16,7 @@ void LEDAnimationTask::run() {
     }
 
     animationLock.unlock();
-    vTaskDelay(animationConfig.animationSpeed);
+    vTaskDelay(pdMS_TO_TICKS(animationConfig.animationSpeed));
 }
 
 TaskHandle_t AnimationTaskHandle;

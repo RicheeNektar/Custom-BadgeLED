@@ -1,6 +1,11 @@
 #include "animation/Abstract.h"
 #include "animation/Rainbow.h"
 #include "animation/RotatingGradient.h"
+#include "Globals.h"
+
+uint8_t AbstractAnimation::offset() {
+    return micros() / NUM_MAIN_LEDS / 1000;
+}
 
 void AbstractAnimation::reload() {
     animationLock.waitForLock();

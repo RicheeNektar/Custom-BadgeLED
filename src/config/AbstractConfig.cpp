@@ -51,6 +51,12 @@ char* AbstractConfig::readString(File& file) {
 }
 
 void AbstractConfig::writeString(File& file, const char* text) {
+    if (text == nullptr) {
+        constexpr uint8_t length = 0;
+        file.write(&length, 1);
+        return;
+    }
+
     const uint8_t length = strlen(text);
     file.write(&length, 1);
     file.write(reinterpret_cast<const uint8_t*>(text), length);

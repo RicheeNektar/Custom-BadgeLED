@@ -4,15 +4,32 @@
 #include <WiFi.h>
 #include <ESPmDNS.h>
 
+#include "web/Server.h"
+
 bool AccessPoint::restart() {
-    MDNS.end();
-    WiFi.softAPdisconnect(true);
+    if (0 != WiFi.softAPIP()) {
+        MDNS.end();
+        WebServer::stop();
+        WiFi.softAPdisconnect(true);
+    }
 
     if (wifiConfig.enabled) {
-        return WiFi.softAP(
-            wifiConfig.ssid,
-            wifiConfig.password
-        ) && MDNS.begin("badge");
+        if (
+            !WiFi.softAP(
+                wifiConfig.ssid,
+                wifiConfig.password
+            )
+        ) {
+            return false;
+        }
+
+        while (0 == WiFi.softAPIP()) {
+            vTaskDelay(pdMS_TO_TICKS(50));
+        }
+
+        WebServer::start();
+
+        return MDNS.begin("badge");
     }
 
     return true;

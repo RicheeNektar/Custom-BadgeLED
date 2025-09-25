@@ -10,6 +10,9 @@ struct AbstractAnimation {
     virtual void step() = 0;
 
     static void reload();
+
+protected:
+    static uint8_t offset();
 };
 
 extern Lock animationLock;
