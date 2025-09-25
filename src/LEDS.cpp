@@ -14,6 +14,9 @@ void LEDS::error(const uint8_t code, const CRGB moduleColor) {
     for (uint8_t i = 1; i < NUM_STATUS_LEDS; i++) {
         statusLeds[i] = (code >> (i - 1) & 1) > 0 ? STATUS_WHITE : STATUS_OFF;
     }
+
+    FastLED[1].showLeds(STATUS_LED_BRIGHTNESS);
+    vTaskDelay(pdMS_TO_TICKS(1000));
 }
 
 void LEDS::status(const uint8_t ledID, const CRGB color) {

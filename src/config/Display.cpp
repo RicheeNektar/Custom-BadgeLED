@@ -59,5 +59,7 @@ void DisplayConfig::serialize(File& file) const {
     writeString(file, line3);
 
     file.write(imageLen);
-    file.write(image, imageLen);
+    if (image != nullptr) {
+        file.write(image, imageLen);
+    }
 }

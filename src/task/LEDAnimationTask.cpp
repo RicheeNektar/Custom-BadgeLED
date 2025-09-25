@@ -4,6 +4,7 @@
 
 void LEDAnimationTask::init() {
     animationConfig.load();
+    AbstractAnimation::reload();
 }
 
 void LEDAnimationTask::run() {

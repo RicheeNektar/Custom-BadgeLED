@@ -27,9 +27,9 @@
 #define SAMPLES 16
 
 // Button events
-#define BUTTON_COOLDOWN_m            1000000
+#define BUTTON_COOLDOWN_m             100000
 #define BUTTON_LONG_PRESS_COOLDOWN_m  250000
-#define BUTTON_LONG_PRESS_DURATION_m 2000000
+#define BUTTON_LONG_PRESS_DURATION_m 1500000
 
 // statusLed[] Indexes
 #define STATUS_LED_ID_MAIN       0

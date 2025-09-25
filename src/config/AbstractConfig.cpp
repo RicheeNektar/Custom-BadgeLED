@@ -7,33 +7,32 @@
 #include "LEDS.h"
 
 void AbstractConfig::load() {
-    const char* name = this->getContextName();
+    const char* name = getContextName();
     const String path = "/config/" + String(name);
 
     if (LittleFS.exists(path)) {
         File file = LittleFS.open(path, FILE_READ);
-        this->deserialize(file);
+        deserialize(file);
         file.close();
     } else {
-        this->defaults();
-        // this->save();
+        defaults();
+        save();
     }
 }
 
 void AbstractConfig::save() {
-    const char* name = this->getContextName();
+    const char* name = getContextName();
     File file;
 
-    LEDS::status(STATUS_LED_ID_MAIN, STATUS_YELLOW);
     try {
         file = LittleFS.open("/config/" + String(name), FILE_WRITE, true);
-        this->serialize(file);
+        serialize(file);
         file.flush();
-    } catch (...) {
-        Logs::errorf(ERROR_FS_WRITE, ERROR_MODULE_FS, "Failed to save config '%s'", name);
+    } catch (std::exception& e) {
+        log_e("%s", e.what());
     }
+
     file.close();
-    LEDS::status(STATUS_LED_ID_MAIN, STATUS_OFF);
 }
 
 char* AbstractConfig::readString(File& file) {
