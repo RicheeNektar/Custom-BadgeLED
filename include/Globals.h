@@ -1,7 +1,7 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#define VERSION "0.5.2"
+#define VERSION "v0.5.2"
 
 // Pins
 // LED
