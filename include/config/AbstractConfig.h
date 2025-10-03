@@ -3,19 +3,19 @@
 
 #include <FS.h>
 
-#include "Logs.h"
-
 class AbstractConfig {
 protected:
-    static char* readString(File& file);
+    static char* readString(Stream& file);
 
-    static void writeString(File& file, const char* text);
+    static void writeString(Print& file, const char* text);
 
     virtual const char* getContextName() = 0;
 
-    virtual void serialize(File& file) const = 0;
+    virtual void serialize(Print& file) const = 0;
 
-    virtual void deserialize(File& file) = 0;
+    virtual void deserialize(Stream& file) = 0;
+
+    virtual bool validate() = 0;
 
 public:
     virtual ~AbstractConfig() = default;

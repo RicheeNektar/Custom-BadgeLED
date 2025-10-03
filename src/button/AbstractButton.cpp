@@ -34,7 +34,6 @@ void Button::onPress() {
                 && micros() - debounce > BUTTON_LONG_PRESS_COOLDOWN_m
             )
         ) {
-            log_d("Long press");
             setLED(STATUS_WHITE);
 
             debounce = micros();
@@ -49,7 +48,6 @@ void Button::onRelease() {
             setLED(STATUS_WHITE);
             debounce = micros();
             onShortPress();
-            log_d("Short press");
         } else if (
             micros() - debounce > BUTTON_COOLDOWN_m
         ) {

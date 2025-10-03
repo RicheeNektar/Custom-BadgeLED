@@ -1,10 +1,9 @@
 #include "wifi/AccessPoint.h"
 #include "config/Wifi.h"
+#include "web/Server.h"
 
 #include <WiFi.h>
 #include <ESPmDNS.h>
-
-#include "web/Server.h"
 
 bool AccessPoint::restart() {
     if (0 != WiFi.softAPIP()) {

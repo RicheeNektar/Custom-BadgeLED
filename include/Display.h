@@ -1,10 +1,11 @@
 #ifndef DISPLAY_H
 #define DISPLAY_H
 
-#define ENABLE_GxEPD2_GFX 1
+#include "config/Display.h"
+
 #include <GxEPD2_3C.h>
 
-#include "config/Display.h"
+#define ENABLE_GxEPD2_GFX 1
 
 #define MAX_DISPLAY_BUFFER_SIZE 800
 #define MAX_HEIGHT(EPD) (EPD::HEIGHT <= MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8) ? EPD::HEIGHT : MAX_DISPLAY_BUFFER_SIZE / (EPD::WIDTH / 8))

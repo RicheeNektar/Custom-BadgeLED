@@ -1,276 +1,93 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <title>Display Konfiguration</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../global.css" />
-    <link rel="stylesheet" href="index.css" />
-</head>
-<body>
-<div class="container">
-    <div class="nav-buttons">
-        <a href="/">Zur Startseite</a>
-    </div>
-
-    <h1>Display Konfiguration</h1>
-
-    <div class="card">
-        <div class="control-group">
-            <label for="name">Badge Name / Besitzer</label>
-            <input type="text" id="name" maxlength="31" value="ArdyMoon">
-        </div>
-        <div class="control-group">
-            <div class="toggle-container">
-                <label>Name in Rot anzeigen</label>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="nameColorRed" checked>
-                    <span class="toggle-slider"></span>
-                </label>
+    <head>
+        <title>Display Konfiguration</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/global.css" />
+        <link rel="stylesheet" href="/display/index.css" />
+        <script src="/util/index.js"></script>
+        <script src="/util/config.js"></script>
+        <script src="/util/buffer.js"></script>
+        <script src="/display/config.js"></script>
+        <script src="/display/index.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="nav-buttons">
+                <a href="/">Zur Startseite</a>
             </div>
-            <p style="font-size: 12px; color: #aaa; margin-top: 5px;">
-                Aus: Name wird Weiss angezeigt
-            </p>
-        </div>
-    </div>
 
-    <div class="card">
-        <div class="control-group">
-            <label for="description">Beschreibung</label>
-            <textarea id="description" maxlength="255"></textarea>
-        </div>
-    </div>
+            <h1>Display Konfiguration</h1>
 
-    <div class="card">
-        <div class="control-group">
-            <label for="telegram">Telegram Name (ohne @)</label>
-            <input type="text" id="telegram" maxlength="31">
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="control-group">
-            <label>Bild hochladen (64x64 Pixel)</label>
-            <div class="image-preview" id="imagePreview">
-                <img id="previewImg">
-                <span id="noImageText">Kein Bild</span>
+            <div class="card">
+                <div class="control-group">
+                    <label for="name">Badge Name / Besitzer</label>
+                    <input type="text" id="name" maxlength="31" value="ArdyMoon">
+                </div>
+                <div class="control-group">
+                    <div class="toggle-container">
+                        <label>Name in Rot anzeigen</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="nameColorRed" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    <p style="font-size: 12px; color: #aaa; margin-top: 5px;">
+                        Aus: Name wird Weiss angezeigt
+                    </p>
+                </div>
             </div>
-            <div class="file-upload">
-                <input type="file" class="file-upload-input" id="imageUpload" accept="image/*">
-                <div class="file-upload-button">Bild auswahl</div>
+
+            <div class="card">
+                <div class="control-group">
+                    <label for="description">Beschreibung</label>
+                    <textarea id="description" maxlength="255"></textarea>
+                </div>
             </div>
-            <button class="clear-button" onclick="deleteImage()" style="background: #ff4444 !important; margin-top: 10px;">Bild entfernen</button>
-            <p style="font-size: 12px; color: #aaa; margin-top: 5px;">
-                <strong>Bild-Upload-Anleitung:</strong><br>
-                • Optimale Pixel: 64x64 Pixel<br>
-                • Unterstuetzte Formate: BMP<br>
-                • Online-Konverter: <a href="https://convertio.co/de/jpg-bmp/" target="_blank" style="color: #00ff88;">convertio.co</a><br>
-                • Das Bild wird rechts unter der Trennlinie angezeigt
-            </p>
-        </div>
-    </div>
 
-    <div class="card">
-        <div class="control-group">
-            <div class="toggle-container">
-                <label>Farben invertieren (schwarzer Hintergrund)</label>
-                <label class="toggle-switch">
-                    <input type="checkbox" id="invertColors">
-                    <span class="toggle-slider"></span>
-                </label>
+            <div class="card">
+                <div class="control-group">
+                    <label for="telegram">Telegram Name (ohne @)</label>
+                    <input type="text" id="telegram" maxlength="31">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="control-group">
+                    <label>Bild hochladen (64x64 Pixel)</label>
+                    <div class="image-preview" id="imagePreview">
+                        <img id="previewImg" src="/config/display/image.bmp" alt="image" />
+                        <span id="noImageText">Kein Bild</span>
+                    </div>
+                    <div class="file-upload">
+                        <input type="file" class="file-upload-input" id="imageUpload" accept="image/*" onchange="window.config.uploadImage(this)" >
+                        <div class="file-upload-button">Bild hochladen</div>
+                    </div>
+                    <p style="font-size: 12px; color: #aaa; margin-top: 5px;">
+                        <strong>Bild-Upload-Anleitung:</strong><br>
+                        • Optimale Pixel: 64x64 Pixel<br>
+                        • Unterstuetzte Formate: BMP<br>
+                        • Online-Konverter: <a href="https://convertio.co/de/jpg-bmp/" target="_blank" style="color: #00ff88;">convertio.co</a><br>
+                        • Das Bild wird rechts unter der Trennlinie angezeigt
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="control-group">
+                    <div class="toggle-container">
+                        <label>Farben invertieren (schwarzer Hintergrund)</label>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="invertColors">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <button onclick="window.config.save()">Speichern</button>
             </div>
         </div>
-    </div>
-
-    <div class="card">
-        <button onclick="updateDisplay()">Aktualisieren</button>
-        <button class="test-button" onclick="testDisplay()">Display Test</button>
-        <button class="clear-button" style="background: #ff4444 !important; margin-top: 10px;" onclick="clearDisplay()">Display leeren</button>
-    </div>
-</div>
-
-<script>
-    // Bild-Upload und Vorschau
-    const imageUpload = document.getElementById('imageUpload');
-    const previewImg = document.getElementById('previewImg');
-    const noImageText = document.getElementById('noImageText');
-    let imageData = null;
-
-    imageUpload.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        // Überprüfe Dateigröße (max. 5MB)
-        if (file.size > 5 * 1024 * 1024) {
-            alert('Bild zu groß! Maximale Größe ist 5MB.');
-            return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            previewImg.src = e.target.result;
-            previewImg.style.display = 'block';
-            noImageText.style.display = 'none';
-            imageData = e.target.result;
-        };
-        reader.readAsDataURL(file);
-    });
-
-    // Lade aktuelle Werte
-    window.onload = function() {
-        fetch('/display-values')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('name').value = data.name;
-                document.getElementById('description').value = data.description;
-                document.getElementById('telegram').value = data.telegram;
-                document.getElementById('invertColors').checked = data.invertColors;
-                document.getElementById('nameColorRed').checked = data.nameColorRed !== undefined ? data.nameColorRed : true;
-
-                // Bild laden, falls vorhanden
-                if (data.imagePath) {
-                    fetch('/image' + data.imagePath)
-                        .then(response => {
-                            if (response.ok) {
-                                return response.blob();
-                            }
-                            throw new Error('Bild konnte nicht geladen werden');
-                        })
-                        .then(blob => {
-                            const url = URL.createObjectURL(blob);
-                            previewImg.src = url;
-                            previewImg.style.display = 'block';
-                            noImageText.style.display = 'none';
-                        })
-                        .catch(error => {
-                            console.error('Fehler beim Laden des Bildes:', error);
-                        });
-                }
-            });
-    }
-
-    function updateDisplay() {
-        // Daten direkt als einfaches Objekt zusammenstellen
-        const name = document.getElementById('name').value;
-        const description = document.getElementById('description').value;
-        const telegram = document.getElementById('telegram').value;
-        const invertColors = document.getElementById('invertColors').checked;
-        const nameColorRed = document.getElementById('nameColorRed').checked;
-
-        // Erst das Bild hochladen, falls vorhanden
-        if (imageData) {
-            const formData = new FormData();
-
-            // Konvertiere Base64 zu Blob
-            const byteCharacters = atob(imageData.split(',')[1]);
-            const byteNumbers = new Array(byteCharacters.length);
-            for (let i = 0; i < byteCharacters.length; i++) {
-                byteNumbers[i] = byteCharacters.charCodeAt(i);
-            }
-            const byteArray = new Uint8Array(byteNumbers);
-            const blob = new Blob([byteArray], {type: 'image/jpeg'});
-
-            formData.append('image', blob, 'badge_image.jpg');
-
-            fetch('/upload-image', {
-                method: 'POST',
-                body: formData
-            })
-                .then(response => response.text())
-                .then(result => {
-                    if(result === 'OK') {
-                        console.log('Bild erfolgreich hochgeladen');
-                        // Nach erfolgreichem Bild-Upload die anderen Daten aktualisieren
-                        updateDisplayData(name, description, telegram, invertColors, nameColorRed);
-                    } else {
-                        alert('Fehler beim Hochladen des Bildes!');
-                    }
-                })
-                .catch(error => {
-                    console.error('Fehler beim Bild-Upload:', error);
-                    alert('Fehler beim Hochladen des Bildes!');
-                });
-        } else {
-            // Kein Bild, direkt die Daten aktualisieren
-            updateDisplayData(name, description, telegram, invertColors, nameColorRed);
-        }
-    }
-
-    function updateDisplayData(name, description, telegram, invertColors, nameColorRed) {
-        // Verwende ein einfaches GET wie beim simple-update Endpunkt, der funktioniert
-        const url = `/simple-update?name=${encodeURIComponent(name)}&description=${encodeURIComponent(description)}&telegram=${encodeURIComponent(telegram)}&invert=${invertColors ? '1' : '0'}&nameRed=${nameColorRed ? '1' : '0'}`;
-
-        fetch(url)
-            .then(response => response.text())
-            .then(result => {
-                if(result.includes("Simple Update")) {
-                    alert('Display wird aktualisiert, Bitte warten...');
-                } else {
-                    alert('Fehler beim Aktualisieren!');
-                }
-            });
-    }
-
-    function testDisplay() {
-        if (isLowBattery) {
-            alert('Display-Update wegen niedriger Batterie nicht möglich');
-            return;
-        }
-
-        fetch('/test-display')
-            .then(response => response.text())
-            .then(result => {
-                if(result === 'OK') {
-                    alert('Display-Test wurde gestartet!');
-                } else {
-                    alert('Fehler beim Display-Test!');
-                }
-            });
-    }
-
-    function clearDisplay() {
-        if (isLowBattery) {
-            alert('Display-Update wegen niedriger Batterie nicht möglich');
-            return;
-        }
-
-        fetch('/clear-display')
-            .then(response => response.text())
-            .then(result => {
-                if(result === 'OK') {
-                    alert('Display wurde geleert!');
-                    // Formularfelder leeren
-                    document.getElementById('name').value = '';
-                    document.getElementById('description').value = '';
-                    document.getElementById('telegram').value = '';
-                    document.getElementById('invertColors').checked = false;
-                    document.getElementById('nameColorRed').checked = true;  // Standard: Rot
-                    previewImg.style.display = 'none';
-                    noImageText.style.display = 'block';
-                    imageData = null;
-                    imageUpload.value = '';
-                } else {
-                    alert('Fehler beim leeren des Displays!');
-                }
-            });
-    }
-
-    function deleteImage() {
-        if (confirm('Bild wirklich löschen?')) {
-            fetch('/delete-image')
-                .then(response => response.text())
-                .then(result => {
-                    if(result === 'OK') {
-                        alert('Bild wurde erfolgreich gelöscht!');
-                        previewImg.style.display = 'none';
-                        noImageText.style.display = 'block';
-                        imageData = null;
-                        imageUpload.value = '';
-                    } else {
-                        alert('Fehler beim Löschen des Bildes!');
-                    }
-                });
-        }
-    }
-</script>
-</body>
+    </body>
 </html>

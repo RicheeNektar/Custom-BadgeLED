@@ -24,23 +24,23 @@ void AnimationConfig::nextMode() {
     mode = (mode + 1) % 2;
 }
 
-void AnimationConfig::deserialize(File& file) {
+void AnimationConfig::deserialize(Stream& file) {
     uint8_t mbuffer[2];
 
-    file.read(mbuffer, sizeof(mbuffer));
+    file.readBytes(mbuffer, sizeof(mbuffer));
     this->animationSpeed = mbuffer[0] | mbuffer[1] << 8;
 
-    file.read(mbuffer, sizeof(mbuffer));
+    file.readBytes(mbuffer, sizeof(mbuffer));
     this->micFrequency = mbuffer[0] | mbuffer[1] << 8;
 
-    file.read(&this->brightness, 1);
-    file.read(&this->mode, 1);
-    file.read(&this->noiseLevel, 1);
-    file.read(&this->primaryHue, 1);
-    file.read(&this->secondaryHue, 1);
+    file.readBytes(&this->brightness, 1);
+    file.readBytes(&this->mode, 1);
+    file.readBytes(&this->noiseLevel, 1);
+    file.readBytes(&this->primaryHue, 1);
+    file.readBytes(&this->secondaryHue, 1);
 }
 
-void AnimationConfig::serialize(File& file) const {
+void AnimationConfig::serialize(Print& file) const {
     const uint8_t buffer[] {
         static_cast<uint8_t>(this->animationSpeed & 0xFF),
         static_cast<uint8_t>(this->animationSpeed >> 8 & 0xFF),
@@ -53,4 +53,8 @@ void AnimationConfig::serialize(File& file) const {
         this->secondaryHue
     };
     file.write(buffer, sizeof(buffer));
+}
+
+bool AnimationConfig::validate() {
+    return true;
 }

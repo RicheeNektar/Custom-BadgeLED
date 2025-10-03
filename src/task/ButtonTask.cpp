@@ -14,8 +14,8 @@ void ButtonTask::run() {
 }
 
 Button* buttons[NUM_BUTTONS] = {
-    new ModeButton(),
-    new SaoButton(),
+    new ModeButton,
+    new SaoButton,
 };
 
 TaskHandle_t ButtonTaskHandle;

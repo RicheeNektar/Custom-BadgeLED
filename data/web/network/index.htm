@@ -1,206 +1,39 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <title>Netzwerk Konfiguration</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../global.css" />
-</head>
-<body>
-<div class="container">
-    <div class="nav-buttons">
-        <a href="/">Zur Startseite</a>
-    </div>
+    <head>
+        <title>Netzwerk Konfiguration</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="/global.css" />
+        <script src="/util/index.js"></script>
+        <script src="/util/config.js"></script>
+        <script src="/util/buffer.js"></script>
+        <script src="/network/config.js"></script>
+        <script src="/network/index.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="nav-buttons">
+                <a href="/">Zur Startseite</a>
+            </div>
 
-    <h1>Netzwerk Konfiguration</h1>
+            <h1>Netzwerk Konfiguration</h1>
 
-    <div class="card">
-        <h3 style="color: #00ff88; margin-top: 0;">Device Information</h3>
-        <div class="control-group">
-            <label>MAC-Adresse</label>
-            <input type="text" id="macaddress" readonly style="background: #303030;">
+            <form id="network-form" class="card">
+                <h3 style="color: #00ff88; margin-top: 0;">Access Point Einstellungen</h3>
+                <div class="control-group">
+                    <label for="apname">SSID</label>
+                    <input type="text" id="apname" minlength="1" value="LED-Badge" required />
+                </div>
+
+                <div class="control-group">
+                    <label for="appassword">Passwort (optional)</label>
+                    <input type="password" id="appassword" minlength="8" placeholder="Leer lassen f&uuml;r offenen AP" />
+                </div>
+
+                <div class="control-group">
+                    <button type="submit" onclick="this.disabled = true">Speichern</button>
+                </div>
+            </form>
         </div>
-        <div class="control-group">
-            <label>Device-ID (OTA)</label>
-            <input type="text" id="deviceid" readonly style="background: #303030;">
-        </div>
-    </div>
-
-    <div class="card">
-        <h3 style="color: #00ff88; margin-top: 0;">WiFi Client (STA) Einstellungen</h3>
-        <div class="control-group">
-            <label for="wifiEnabled">WiFi-Verbindung aktiviert</label>
-            <select id="wifiEnabled" style="width: 100%; padding: 8px; border-radius: 5px; background: #404040; color: white; border: 1px solid #00ff88;">
-                <option value="true">Ja</option>
-                <option value="false">Nein</option>
-            </select>
-        </div>
-        <div class="control-group">
-            <label for="wifiSSID">WiFi Netzwerkname (SSID)</label>
-            <input type="text" id="wifiSSID" maxlength="32" placeholder="WiFi Netzwerkname">
-        </div>
-        <div class="control-group">
-            <label for="wifiPassword">WiFi Passwort</label>
-            <input type="password" id="wifiPassword" maxlength="64" placeholder="WiFi Passwort">
-        </div>
-    </div>
-
-    <div class="card">
-        <h3 style="color: #00ff88; margin-top: 0;">Access Point (AP) Einstellungen</h3>
-        <div class="control-group">
-            <label for="apname">Access Point Name</label>
-            <input type="text" id="apname" maxlength="31" value="LED-Badge">
-        </div>
-    </div>
-
-    <div class="card">
-        <div class="control-group">
-            <label for="appassword">Access Point Passwort (optional)</label>
-            <input type="password" id="appassword" maxlength="63" placeholder="Leer lassen für offenen AP">
-        </div>
-    </div>
-
-    <div class="card">
-        <h3 style="color: #00ff88; margin-top: 0;">OTA Update Einstellungen</h3>
-        <div class="control-group">
-            <label for="otaEnabled">Automatische Updates aktiviert</label>
-            <select id="otaEnabled" style="width: 100%; padding: 8px; border-radius: 5px; background: #404040; color: white; border: 1px solid #00ff88;">
-                <option value="true">Ja</option>
-                <option value="false">Nein</option>
-            </select>
-        </div>
-        <div class="control-group">
-            <label>Aktuelle Firmware Version</label>
-            <input type="text" id="currentVersion" readonly style="background: #303030;">
-        </div>
-        <div class="control-group">
-            <label>OTA Server Status</label>
-            <input type="text" id="otaStatus" readonly style="background: #303030;">
-        </div>
-        <div class="control-group">
-            <button onclick="checkForUpdates()" style="background: #00ff88; color: #1a1a1a; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; font-weight: bold; margin-bottom: 10px;">Updates prüfen und installieren</button>
-        </div>
-    </div>
-
-    <div class="card">
-        <button onclick="updateNetwork()">Netzwerk aktualisieren</button>
-    </div>
-</div>
-
-<script>
-    // Lade aktuelle Werte
-    window.onload = function() {
-        fetch('/network-values')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('apname').value = data.apname || 'LED-Badge';
-                document.getElementById('appassword').value = data.appassword || '';
-                document.getElementById('wifiSSID').value = data.wifiSSID || '';
-                document.getElementById('wifiPassword').value = data.wifiPassword || '';
-                document.getElementById('wifiEnabled').value = data.wifiEnabled ? 'true' : 'false';
-                document.getElementById('macaddress').value = data.macAddress || '';
-                document.getElementById('deviceid').value = data.deviceID || '';
-                document.getElementById('otaEnabled').value = data.otaEnabled ? 'true' : 'false';
-                document.getElementById('currentVersion').value = data.currentVersion || 'Unbekannt';
-                document.getElementById('otaStatus').value = data.otaStatus || 'Nicht verbunden';
-            });
-    }
-
-    function checkForUpdates() {
-        const button = document.querySelector('button[onclick="checkForUpdates()"]');
-        button.textContent = 'Prüfe Updates...';
-        button.disabled = true;
-
-        fetch('/check-updates', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-            .then(response => response.json())
-            .then(result => {
-                if(result.success) {
-                    if(result.updateAvailable) {
-                        if(confirm('Update verfügbar! Möchten Sie es jetzt installieren?')) {
-                            installUpdate();
-                        } else {
-                            button.textContent = 'Updates prüfen und installieren';
-                            button.disabled = false;
-                        }
-                    } else {
-                        alert('Kein Update verfügbar.');
-                        button.textContent = 'Updates prüfen und installieren';
-                        button.disabled = false;
-                    }
-                } else {
-                    alert('Fehler beim Prüfen der Updates: ' + result.message);
-                    button.textContent = 'Updates prüfen und installieren';
-                    button.disabled = false;
-                }
-            })
-            .catch(error => {
-                alert('Fehler beim Prüfen der Updates: ' + error);
-                button.textContent = 'Updates prüfen und installieren';
-                button.disabled = false;
-            });
-    }
-
-    function installUpdate() {
-        const button = document.querySelector('button[onclick="checkForUpdates()"]');
-        button.textContent = 'Installiere Update...';
-
-        fetch('/install-update', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-            .then(response => response.json())
-            .then(result => {
-                if(result.success) {
-                    alert('Update wird installiert. Das Gerät startet neu...');
-                    // Warte kurz und dann zur Startseite
-                    setTimeout(() => {
-                        window.location.href = '/';
-                    }, 3000);
-                } else {
-                    alert('Fehler beim Installieren: ' + result.message);
-                    button.textContent = 'Updates prüfen und installieren';
-                    button.disabled = false;
-                }
-            })
-            .catch(error => {
-                alert('Fehler beim Installieren: ' + error);
-                button.textContent = 'Updates prüfen und installieren';
-                button.disabled = false;
-            });
-    }
-
-    function updateNetwork() {
-        const data = {
-            apname: document.getElementById('apname').value,
-            appassword: document.getElementById('appassword').value,
-            wifiSSID: document.getElementById('wifiSSID').value,
-            wifiPassword: document.getElementById('wifiPassword').value,
-            wifiEnabled: document.getElementById('wifiEnabled').value,
-            otaEnabled: document.getElementById('otaEnabled').value
-        };
-
-        fetch('/update-network', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data)
-        })
-            .then(response => response.text())
-            .then(result => {
-                if(result === 'OK') {
-                    alert('Netzwerk wird aktualisiert. Bitte verbinden Sie sich neu mit dem Badge.');
-                } else {
-                    alert('Fehler beim Aktualisieren!');
-                }
-            });
-    }
-</script>
-</body>
+    </body>
 </html>

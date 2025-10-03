@@ -37,7 +37,7 @@ label {
     margin-bottom: 5px;
     color: var(--primary-color);
 }
-input[type="text"], textarea {
+input[type="text"], input[type="password"], textarea {
     width: 100%;
     padding: 8px;
     border-radius: 5px;

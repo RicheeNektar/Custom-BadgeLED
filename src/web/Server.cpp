@@ -1,10 +1,15 @@
 #include "web/Server.h"
-#include "web/routes/PatchAnimations.h"
+#include "web/routes/api/config/Animation.h"
+#include "web/routes/api/config/Display.h"
+#include "web/routes/api/config/Network.h"
 
 #include <LittleFS.h>
-#include <ElegantOTA.h>
 
 void WebServer::init() {
+    ApiConfigAnimation::init(_server);
+    ApiConfigDisplay::init(_server);
+    ApiConfigNetwork::init(_server);
+
     // Static web content
     _server.serveStatic("/config", LittleFS, "/config");
     _server.serveStatic("/logs", LittleFS, "/logs");
@@ -14,11 +19,6 @@ void WebServer::init() {
     _server.onNotFound([](AsyncWebServerRequest* request) {
         request->send(LittleFS, "/web/404.htm", "text/html");
     });
-
-    _server.on("/", HTTP_PATCH, PatchAnimations::handle);
-
-    // OTA Handler
-    ElegantOTA.begin(&_server, "", "");
 }
 
 void WebServer::start() {

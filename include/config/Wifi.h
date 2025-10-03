@@ -27,9 +27,11 @@ struct WifiConfig final : virtual AbstractConfig {
         return "wifi";
     }
 
-    void serialize(File& file) const override;
+    void serialize(Print& file) const override;
 
-    void deserialize(File& file) override;
+    void deserialize(Stream& file) override;
+
+    bool validate() override;
 
     void defaults() override;
 };
