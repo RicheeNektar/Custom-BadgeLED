@@ -33,3 +33,9 @@ size_t DataWrapper::write(uint8_t) {
     return 0;
 }
 
+uint32_t DataWrapper::readUInt32() {
+    return static_cast<unsigned>(read()) << 24
+         | static_cast<unsigned>(read()) << 16
+         | static_cast<unsigned>(read()) << 8
+         | static_cast<unsigned>(read());
+}

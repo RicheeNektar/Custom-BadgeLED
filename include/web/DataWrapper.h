@@ -28,6 +28,8 @@ struct DataWrapper : virtual Stream {
     int read() override;
 
     size_t write(uint8_t) override;
+
+    uint32_t readUInt32();
 };
 
 #endif //DATAWRAPPER_H

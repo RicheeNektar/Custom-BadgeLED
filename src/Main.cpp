@@ -52,6 +52,13 @@ void setupTasks() {
     );
 }
 
+void updateCleanup() {
+    if (LittleFS.exists("/web.new/")) {
+        LittleFS.rmdir("/web/");
+        LittleFS.rename("/web.new/", "/web/");
+    }
+}
+
 void setup() {
     setupPins();
 
@@ -63,6 +70,8 @@ void setup() {
     }
 
     Logs::add("--[[ REBOOT ]]--");
+
+    updateCleanup();
 
     WebServer::init();
 
