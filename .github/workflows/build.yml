@@ -36,6 +36,7 @@ jobs:
   upload:
     runs-on: ubuntu-latest
     if: github.ref_name != 'master'
+    needs: build
     steps:
       - uses: actions/upload-artifact@v4
         with:
@@ -44,6 +45,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     if: github.ref_name == 'master'
+    needs: build
     steps:
       - name: Release
         uses: softprops/action-gh-release@v2
