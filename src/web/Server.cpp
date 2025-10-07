@@ -1,4 +1,5 @@
 #include "web/Server.h"
+#include "web/routes/OTA.h"
 #include "web/routes/api/config/Animation.h"
 #include "web/routes/api/config/Display.h"
 #include "web/routes/api/config/Network.h"
@@ -9,6 +10,7 @@ void WebServer::init() {
     ApiConfigAnimation::init(_server);
     ApiConfigDisplay::init(_server);
     ApiConfigNetwork::init(_server);
+    OTA::init(_server);
 
     // Static web content
     _server.serveStatic("/config", LittleFS, "/config");
