@@ -2,6 +2,9 @@ class Network {
     async onLoad() {
         network.apName = await Util.waitForElementById('apName');
         network.apPassword = await Util.waitForElementById('apPassword');
+
+        network.form = await Util.waitForElementById('network-form');
+        network.form.addEventListener('submit', network.save);
         
         const r = await fetch('/api/config/network');
         network.config = new NetworkConfig(await r.bytes());

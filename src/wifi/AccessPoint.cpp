@@ -5,6 +5,8 @@
 #include <WiFi.h>
 #include <ESPmDNS.h>
 
+#include "LEDS.h"
+
 bool AccessPoint::restart() {
     if (0 != WiFi.softAPIP()) {
         MDNS.end();
@@ -28,9 +30,11 @@ bool AccessPoint::restart() {
 
         WebServer::start();
 
+        LEDS::status(STATUS_LED_ID_MAIN, STATUS_GREEN);
         return MDNS.begin("badge");
     }
 
+    LEDS::status(STATUS_LED_ID_MAIN, STATUS_RED);
     return true;
 }
 

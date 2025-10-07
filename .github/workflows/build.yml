@@ -1,9 +1,6 @@
 name: PlatformIO CI
 
-on:
-  push:
-    branches:
-      - master
+on: [push]
 
 jobs:
   build:
@@ -33,10 +30,22 @@ jobs:
       - name: Build PlatformIO Project
         run: pio run && pio run -t buildfs
 
-      - name: Release
-        uses: softprops/action-gh-release@v2
+      - name: Bundle
+        run: python scripts/create_package.py
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: 'led-badge.firm'
+          path: 'led-badge.firm'
+
+  release:
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'master'
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v4
+      - uses: softprops/action-gh-release@v2
         with:
           fail_on_unmatched_files: true
-          files: |
-            .pio/build/esp32-s3-devkitc-1/*.bin
+          files: 'led-badge.firm'
           tag_name: ${{ steps.version.outputs.version }}

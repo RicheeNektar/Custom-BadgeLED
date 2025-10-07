@@ -5,6 +5,8 @@
 
 struct DisplayConfig final : virtual AbstractConfig {
     uint8_t layout;
+    bool nameColorRed;
+    bool invertedColors;
     const char* name;
     const char* telegram;
     const char* line1;
@@ -13,6 +15,8 @@ struct DisplayConfig final : virtual AbstractConfig {
 
     DisplayConfig(
         const uint8_t layout,
+        const bool nameColorRed,
+        const bool invertedColors,
         const char* name,
         const char* telegram,
         const char* line1,
@@ -20,6 +24,8 @@ struct DisplayConfig final : virtual AbstractConfig {
         const char* line3
     ):
         layout(layout),
+        nameColorRed(nameColorRed),
+        invertedColors(invertedColors),
         name(name),
         telegram(telegram),
         line1(line1),

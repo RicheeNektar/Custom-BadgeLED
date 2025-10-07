@@ -18,7 +18,7 @@
 
             <h1>Netzwerk Konfiguration</h1>
 
-            <form id="network-form" class="card">
+            <form onsubmit="network.save" id="network-form" class="card">
                 <h3 style="color: #00ff88; margin-top: 0;">Access Point Einstellungen</h3>
                 <div class="control-group">
                     <label for="apname">SSID</label>
@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="control-group">
-                    <button type="submit" onclick="this.disabled = true">Speichern</button>
+                    <button type="submit" onclick="setTimeout(() => this.disabled = true)">Speichern</button>
                 </div>
             </form>
         </div>

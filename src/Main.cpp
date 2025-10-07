@@ -52,6 +52,13 @@ void setupTasks() {
     );
 }
 
+void updateCleanup() {
+    if (LittleFS.exists("/web.new/")) {
+        LittleFS.rmdir("/web/");
+        LittleFS.rename("/web.new/", "/web/");
+    }
+}
+
 void setup() {
     setupPins();
 
@@ -63,6 +70,8 @@ void setup() {
     }
 
     Logs::add("--[[ REBOOT ]]--");
+
+    updateCleanup();
 
     WebServer::init();
 
@@ -76,8 +85,7 @@ void setup() {
 }
 
 void loop() {
-    LEDS::status(STATUS_LED_ID_MAIN, wifiConfig.enabled ? STATUS_GREEN : STATUS_RED);
     FastLED[1].showLeds(STATUS_LED_BRIGHTNESS);
 
-    vTaskDelay(pdMS_TO_TICKS(50));
+    vTaskDelay(pdMS_TO_TICKS(100));
 }

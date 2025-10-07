@@ -3,18 +3,28 @@
 
 #include <Stream.h>
 
-struct DataWrapper : virtual Stream {
+struct DataWrapper final : virtual Stream {
     const uint8_t* data;
     const size_t len;
+    Stream* stream;
 
     size_t position = 0;
 
-    DataWrapper(
+    explicit DataWrapper(
+        Stream* stream
+    ):
+        data(nullptr),
+        len(0),
+        stream(stream)
+    {}
+
+    explicit DataWrapper(
         const uint8_t* data,
         const size_t len
     ):
         data(data),
-        len(len)
+        len(len),
+        stream(nullptr)
     {}
 
     ~DataWrapper() override = default;
@@ -28,6 +38,8 @@ struct DataWrapper : virtual Stream {
     int read() override;
 
     size_t write(uint8_t) override;
+
+    uint32_t readUInt32();
 };
 
 #endif //DATAWRAPPER_H
