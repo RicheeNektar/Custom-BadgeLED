@@ -27,39 +27,39 @@ class Ota {
             body: data,
         })
             .then(r => {
-                console.log(r);
-                return r;
-            })
-            .then(async r => ({status: r.status, content: await r.text()}))
-            .then(({status, content}) => {
-                switch (status) {
-                    case 204:
-                        alert('Update erfolgreich');
-                        break;
-                    case 403:
-                    case 400:
-                        switch (content) {
-                            case 'Invalid firmware file':
-                                alert('Veraltete Firmware Datei');
-                                break;
-                            case 'Invalid version':
-                                alert('Ungültige Firmware Datei');
-                                break;
-                            case 'Missing firmware':
-                                alert('Bitte wähle erst eine Datei aus.');
-                                break;
-                            default:
-                                alert('Unbekannter Fehler: ' + content);
-                                break;
-                        }
-                        break;
-                    default:
-                        alert('Unbekannter Status: ' + status);
-                        break;
+                if (
+                       r.status === 201 // Started
+                    || r.status === 400 // Already running
+                ) {
+                    ota.checkInterval = setInterval(
+                        () => {
+                            fetch('/ota/update')
+                                .then(async r => {
+                                    switch (r.status) {
+                                        case 204:
+                                            // wait
+                                            return;
+                                        case 200:
+                                            alert("Update erfolgreich. Badge startet in kürze neu...");
+                                            clearInterval(ota.checkInterval);
+                                            return;
+                                        case 400:
+                                            alert(await r.text());
+                                            clearInterval(ota.checkInterval);
+                                            return;
+                                        default:
+                                            alert("Unbekannter status code: " + r.status);
+                                            clearInterval(ota.checkInterval);
+                                            return;
+                                    }
+                                })
+                            ;
+                        },
+                        1000
+                    );
+                } else {
+                    alert("Fehler beim starten des Updates: " + r.status);
                 }
-            }).catch(e => {
-                console.error(e);
-                alert('Update erfolgreich');
             })
         ;
     }

@@ -7,7 +7,6 @@
 #include "wifi/AccessPoint.h"
 #include "task/LEDAnimationTask.h"
 #include "task/ButtonTask.h"
-#include "config/Wifi.h"
 
 #include <Arduino.h>
 #include <LittleFS.h>
@@ -52,13 +51,6 @@ void setupTasks() {
     );
 }
 
-void updateCleanup() {
-    if (LittleFS.exists("/web.new/")) {
-        LittleFS.rmdir("/web/");
-        LittleFS.rename("/web.new/", "/web/");
-    }
-}
-
 void setup() {
     setupPins();
 
@@ -70,8 +62,6 @@ void setup() {
     }
 
     Logs::add("--[[ REBOOT ]]--");
-
-    updateCleanup();
 
     WebServer::init();
 
