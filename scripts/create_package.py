@@ -41,7 +41,11 @@ def get_files(src = ''):
     return files
 
 def copy(fd, path):
-    src_fd = os.open(path, os.O_RDONLY | os.O_BINARY)
+    if os.name == "nt":
+        src_fd = os.open(path, os.O_RDONLY | os.O_BINARY)
+    else:
+        src_fd = os.open(path, os.O_RDONLY)
+
     while True:
         chunk = os.read(src_fd, 1024)
         if not chunk:
@@ -70,7 +74,11 @@ def package():
     if os.path.exists('led-badge.firm'):
         os.unlink('led-badge.firm')
 
-    fd = os.open('led-badge.firm', os.O_WRONLY | os.O_CREAT | os.O_BINARY)
+    if os.name == "nt":
+        fd = os.open('led-badge.firm', os.O_WRONLY | os.O_CREAT | os.O_BINARY)
+    else:
+        fd = os.open('led-badge.firm', os.O_WRONLY | os.O_CREAT)
+
     put_header(fd, len(files))
     put_files(fd, files)
     put_firmware(fd)
