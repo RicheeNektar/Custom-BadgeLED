@@ -7,7 +7,6 @@
 #include "wifi/AccessPoint.h"
 #include "task/LEDAnimationTask.h"
 #include "task/ButtonTask.h"
-#include "config/Wifi.h"
 
 #include <Arduino.h>
 #include <LittleFS.h>
@@ -76,8 +75,7 @@ void setup() {
 }
 
 void loop() {
-    LEDS::status(STATUS_LED_ID_MAIN, wifiConfig.enabled ? STATUS_GREEN : STATUS_RED);
     FastLED[1].showLeds(STATUS_LED_BRIGHTNESS);
 
-    vTaskDelay(pdMS_TO_TICKS(50));
+    vTaskDelay(pdMS_TO_TICKS(100));
 }
