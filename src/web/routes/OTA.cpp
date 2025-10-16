@@ -7,10 +7,15 @@
 
 void OTA::init(AsyncWebServer& server) {
     server.on("/ota/update", HTTP_POST, post, postFile);
-    server.on("/ota/update", HTTP_GET, get);
+    server.on("/ota/update", HTTP_GET, getUpdate);
+    server.on("/version", HTTP_GET, getVersion);
 }
 
-void OTA::get(AsyncWebServerRequest* request) {
+void OTA::getVersion(AsyncWebServerRequest* request) {
+    request->send(200, "text/html", VERSION);
+}
+
+void OTA::getUpdate(AsyncWebServerRequest* request) {
     switch (UPDATE_STATUS)
     {
         case UPDATE_STATUS_SUCCESS:
@@ -85,17 +90,18 @@ void OTA::post(AsyncWebServerRequest* request) {
 }
 
 void OTA::postFile(AsyncWebServerRequest* request, const String& filename, size_t index, const uint8_t* data, const size_t len, bool final) {
+    File file;
+
     if (UPDATE_STATUS == UPDATE_STATUS_IDLE)
     {
         UPDATE_STATUS = UPDATE_STATUS_UPLOADING;
-
-        if (LittleFS.exists(TEMP_FIRMWARE_PATH))
-        {
-            LittleFS.remove(TEMP_FIRMWARE_PATH);
-        }
+        file = LittleFS.open(TEMP_FIRMWARE_PATH, FILE_WRITE, true);
+    }
+    else
+    {
+        file = LittleFS.open(TEMP_FIRMWARE_PATH, FILE_APPEND);
     }
 
-    File file = LittleFS.open(TEMP_FIRMWARE_PATH, FILE_APPEND);
     file.write(data, len);
     file.flush();
     file.close();

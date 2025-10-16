@@ -29,25 +29,29 @@ jobs:
       - name: Bundle
         run: python scripts/create_package.py
 
+      - name: Take version
+        id: version
+        run: echo version=$(grep -Eo '"(v[^"]+)"' include/Globals.h | sed 's/"//g') > version.tag
+
       - uses: actions/upload-artifact@v4
         with:
-          name: 'led-badge.firm'
-          path: 'led-badge.firm'
+          name: firmware
+          path: |
+            led-badge.firm
+            version.tag
 
   release:
     runs-on: ubuntu-latest
     if: github.ref_name == 'master'
     needs: build
     steps:
-      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
 
-      - name: Take version
-        id: version
-        run: echo version=$(grep -Eo '"(v[^"]+)"' include/Globals.h | sed 's/"//g') > $GITHUB_OUTPUT
+      - name: version
+        run: echp -n "version=$(cat version.tag)" > $GITHUB_OUTPUT
 
       - uses: softprops/action-gh-release@v2
         with:
           fail_on_unmatched_files: true
-          files: 'led-badge.firm'
+          files: led-badge.firm
           tag_name: ${{ steps.version.outputs.version }}

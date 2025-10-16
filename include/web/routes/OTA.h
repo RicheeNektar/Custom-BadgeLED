@@ -7,7 +7,9 @@
 struct OTA {
     static void init(AsyncWebServer& server);
 
-    static void get(AsyncWebServerRequest* request);
+    static void getVersion(AsyncWebServerRequest* request);
+
+    static void getUpdate(AsyncWebServerRequest* request);
 
     static void post(AsyncWebServerRequest* request);
 

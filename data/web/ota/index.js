@@ -4,12 +4,31 @@ class Ota {
         ota.form.addEventListener('submit', ota.onSubmit);
 
         ota.firmware = await Util.waitForElementById('firmware');
+        ota.firmware.addEventListener('change', ota.onChange);
+
+        const vResponse = await fetch('/version');
+        const vElement = await Util.waitForElementById('current_version');
+        if (vResponse.status === 200) {
+            vElement.innerHTML = await vResponse.text();
+        } else {
+            vElement.innerHTML = `N/A`;
+        }
+
+        ota.selectedVersion = await Util.waitForElementById('selected_version');
 
         ota.isReady = true;
     }
 
+    async onChange(e) {
+        if (ota.firmware.files[0]) {
+            const vBuffer = await ota.firmware.files[0].slice(1, 4).text();
+            ota.selectedVersion.innerHTML = `v${vBuffer.charCodeAt(0)}.${vBuffer.charCodeAt(1)}.${vBuffer.charCodeAt(2)}`;
+        } else {
+            ota.selectedVersion.innerHTML = ``;
+        }
+    }
+
     onSubmit(e) {
-        console.log(e);
         e.preventDefault();
 
         if (!(
@@ -40,7 +59,7 @@ class Ota {
                                             // wait
                                             return;
                                         case 200:
-                                            alert("Update erfolgreich. Badge startet in kürze neu...");
+                                            alert("Update erfolgreich. Badge startet in kurze neu...");
                                             clearInterval(ota.checkInterval);
                                             return;
                                         case 400:

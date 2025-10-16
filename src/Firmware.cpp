@@ -6,6 +6,17 @@
 #include <LittleFS.h>
 #include <Update.h>
 
+void Firmware::init()
+{
+    File crc = LittleFS.open("/web.crc32", "r");
+    DataWrapper wrapper(&crc);
+
+    WEB_CRC32 = wrapper.readUInt32();
+
+    crc.close();
+}
+
+
 void Firmware::removeIfExists(const char* path)
 {
     if (LittleFS.exists(path))
@@ -39,6 +50,7 @@ void Firmware::update()
     log_i("Starting firmware update...");
     DataWrapper wrapper(&firmwareFile);
     const uint32_t version = wrapper.readUInt32();
+    const uint32_t webCrc32 = wrapper.readUInt32();
 
     if (
         // The first byte should be 0
@@ -63,50 +75,58 @@ void Firmware::update()
     LEDS::status(STATUS_LED_ID_MAIN, STATUS_YELLOW);
 
     const uint32_t firmwareLength = wrapper.readUInt32();
+    const uint32_t webLength = wrapper.readUInt32();
     const uint32_t filesCount = wrapper.readUInt32();
 
-    char buffer[128];
+    if (WEB_CRC32 != webCrc32)
+    {
+        char buffer[128];
 
-    for (uint32_t i = 0; i < filesCount; i++) {
-        const uint32_t filepathLength = wrapper.readUInt32();
+        for (uint32_t i = 0; i < filesCount; i++) {
+            const uint32_t filepathLength = wrapper.readUInt32();
 
-        if (filepathLength > 0x7F)
-        {
-            log_e("%d - %d", i, filepathLength);
-            cleanup(&firmwareFile);
-            UPDATE_STATUS = UPDATE_STATUS_ERROR;
-            UPDATE_RESULT = UPDATE_RESULT_FILE_PATH_TOO_LONG;
-            return;
+            if (filepathLength > 0x7F)
+            {
+                log_e("%d - %d", i, filepathLength);
+                cleanup(&firmwareFile);
+                UPDATE_STATUS = UPDATE_STATUS_ERROR;
+                UPDATE_RESULT = UPDATE_RESULT_FILE_PATH_TOO_LONG;
+                return;
+            }
+
+            const uint32_t fileSize = wrapper.readUInt32();
+
+            char filePath[filepathLength + 1];
+            wrapper.readBytes(filePath, filepathLength);
+            filePath[filepathLength] = '\0';
+
+            log_d("%s - %d", filePath, fileSize);
+
+            File file = LittleFS.open(WEB_PATH + String(filePath), FILE_WRITE, true);
+
+            for (uint32_t pos = 0; pos < fileSize; pos += 128)
+            {
+                const size_t remaining = fileSize - pos;
+                const size_t len = std::min(static_cast<uint32_t>(128), remaining);
+                file.write(
+                    reinterpret_cast<const uint8_t*>(buffer),
+                    wrapper.readBytes(buffer, len)
+                );
+            }
+
+            file.flush();
+            file.close();
         }
 
-        const uint32_t fileSize = wrapper.readUInt32();
-
-        char filePath[filepathLength + 1];
-        wrapper.readBytes(filePath, filepathLength);
-        filePath[filepathLength] = '\0';
-
-        log_d("%s - %d", filePath, fileSize);
-
-        File file = LittleFS.open(WEB_PATH + String(filePath), FILE_WRITE, true);
-
-        for (uint32_t pos = 0; pos < fileSize; pos += 128)
-        {
-            const size_t remaining = fileSize - pos;
-            const size_t len = std::min(static_cast<uint32_t>(128), remaining);
-            file.write(
-                reinterpret_cast<const uint8_t*>(buffer),
-                wrapper.readBytes(buffer, len)
-            );
-        }
-
-        file.flush();
-        file.close();
+        LittleFS.remove(WEB_PATH);
+        LittleFS.rename(WEB_PATH_NEW, WEB_PATH);
+        log_i("Web done");
     }
-
-    LittleFS.remove(WEB_PATH);
-    LittleFS.rename(WEB_PATH_NEW, WEB_PATH);
-
-    log_i("Web done");
+    else
+    {
+        wrapper.skip(webLength);
+        log_i("Web skipped");
+    }
 
     Update.begin(firmwareLength);
     Update.writeStream(wrapper);
@@ -119,3 +139,4 @@ void Firmware::update()
 
 uint8_t UPDATE_STATUS = UPDATE_STATUS_IDLE;
 uint8_t UPDATE_RESULT = UPDATE_RESULT_NONE;
+uint32_t WEB_CRC32 = 0;

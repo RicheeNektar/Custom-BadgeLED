@@ -40,6 +40,8 @@ struct DataWrapper final : virtual Stream {
     size_t write(uint8_t) override;
 
     uint32_t readUInt32();
+
+    void skip(int bytes);
 };
 
 #endif //DATAWRAPPER_H

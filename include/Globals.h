@@ -1,8 +1,8 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#define VERSION "v0.7.0"
-#define iVERSION 0x00000700 // first byte unused
+#define VERSION "v0.8.0"
+#define iVERSION 0x00000800 // first byte unused
 
 // Pins
 // LED

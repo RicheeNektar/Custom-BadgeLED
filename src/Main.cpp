@@ -11,6 +11,8 @@
 #include <Arduino.h>
 #include <LittleFS.h>
 
+#include "Firmware.h"
+
 void setupPins() {
     pinMode(BOOT_BUTTON_PIN, INPUT_PULLUP);
 
@@ -63,6 +65,7 @@ void setup() {
 
     Logs::add("--[[ REBOOT ]]--");
 
+    Firmware::init();
     WebServer::init();
 
     if (!AccessPoint::init()) {

@@ -24,6 +24,8 @@ class  Firmware {
     static void removeIfExists(const char* path);
 
 public:
+    static void init();
+
     static void cleanup(File* file);
 
     static void update();
@@ -31,5 +33,6 @@ public:
 
 extern uint8_t UPDATE_STATUS;
 extern uint8_t UPDATE_RESULT;
+extern uint32_t WEB_CRC32;
 
 #endif //FIRMWARE_H

@@ -55,3 +55,19 @@ uint32_t DataWrapper::readUInt32() {
          | static_cast<unsigned>(read()) << 8
          | static_cast<unsigned>(read());
 }
+
+void DataWrapper::skip(const int bytes)
+{
+    if (stream != nullptr)
+    {
+        size_t tmp = 0;
+        void* m = malloc(1024);
+        while (tmp < std::min(stream->available(), bytes))
+        {
+            tmp += stream->readBytes(static_cast<char*>(m), 1024);
+        }
+        free(m);
+    }
+
+    position += bytes;
+}
