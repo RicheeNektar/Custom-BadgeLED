@@ -20,10 +20,6 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Take version
-        id: version
-        run: echo version=$(grep -Eo '"(v[^"]+)"' include/Globals.h | sed 's/"//g') > $GITHUB_OUTPUT
-
       - name: Install PlatformIO Core
         run: pip install --upgrade platformio
 
@@ -43,7 +39,13 @@ jobs:
     if: github.ref_name == 'master'
     needs: build
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
+
+      - name: Take version
+        id: version
+        run: echo version=$(grep -Eo '"(v[^"]+)"' include/Globals.h | sed 's/"//g') > $GITHUB_OUTPUT
+
       - uses: softprops/action-gh-release@v2
         with:
           fail_on_unmatched_files: true
