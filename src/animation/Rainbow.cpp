@@ -4,5 +4,5 @@
 #include <fl/fill.h>
 
 void RainbowAnimation::step() {
-    fill_rainbow(mainLeds, NUM_MAIN_LEDS, offset());
+    fill_rainbow(mainLeds, NUM_MAIN_LEDS, 255 * offset(), 255 / NUM_MAIN_LEDS);
 }

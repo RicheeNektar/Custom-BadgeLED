@@ -7,5 +7,4 @@ struct RotatingGradient final : virtual AbstractAnimation {
     void step() override;
 };
 
-
 #endif //ROTATING_GRADIENT_H

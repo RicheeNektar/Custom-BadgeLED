@@ -4,7 +4,7 @@
 #include <FreeRTOS.h> // required for task.h
 #include <task.h>
 
-void TaskRun(void*);
+[[noreturn]] void TaskRun(void*);
 
 struct AbstractTask {
     virtual void init() = 0;

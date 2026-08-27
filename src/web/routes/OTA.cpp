@@ -65,7 +65,7 @@ void OTA::post(AsyncWebServerRequest* request) {
             UPDATE_STATUS = UPDATE_STATUS_IN_PROGRESS;
             Firmware::update();
 
-            vTaskDelay(pdMS_TO_TICKS(5000));
+            vTaskDelay(5000 / portTICK_PERIOD_MS);
 
             if (UPDATE_RESULT == UPDATE_RESULT_SUCCESS)
             {

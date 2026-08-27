@@ -31,28 +31,6 @@ void setupPins() {
     digitalWrite(LIGHT_EN, HIGH);
 }
 
-void setupTasks() {
-    xTaskCreatePinnedToCore(
-        TaskRun,
-        "ButtonTask",
-        8192,
-        &buttonTask,
-        2,
-        &ButtonTaskHandle,
-        1
-    );
-
-    xTaskCreatePinnedToCore(
-        TaskRun,
-        "LEDAnimationTask",
-        8192,
-        &animationTask,
-        1,
-        &AnimationTaskHandle,
-        1
-    );
-}
-
 void setup() {
     setupPins();
 
@@ -73,12 +51,18 @@ void setup() {
     }
 
     BQ25895::init();
-
-    setupTasks();
 }
 
 void loop() {
-    FastLED[1].showLeds(STATUS_LED_BRIGHTNESS);
+    xTaskCreatePinnedToCore(
+        TaskRun,
+        "LEDAnimationTask",
+        8192,
+        &animationTask,
+        1,
+        &AnimationTaskHandle,
+        1
+    );
 
-    vTaskDelay(pdMS_TO_TICKS(100));
+    TaskRun(&buttonTask);
 }

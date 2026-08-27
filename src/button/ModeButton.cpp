@@ -10,7 +10,7 @@ void ModeButton::onLongPress() {
 }
 
 void ModeButton::onShortPress() {
-    animationConfig.nextMode();
+    animationConfig.setMode(animationConfig.getMode() + 1);
 
     AbstractAnimation::reload();
 }

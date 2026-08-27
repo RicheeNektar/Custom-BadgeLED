@@ -1,8 +1,8 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#define VERSION "v0.8.0"
-#define iVERSION 0x00000800 // first byte unused
+#define VERSION "v0.9.0"
+#define iVERSION 0x00000900 // first byte unused
 
 // Pins
 // LED
@@ -47,10 +47,15 @@
 #define BUTTON_ID_SAO 4
 
 #define NUM_BUTTONS      5
-#define NUM_MAIN_LEDS   75
+#define NUM_MAIN_LEDS   70
 #define NUM_STATUS_LEDS  5
 #define LED_TYPE        WS2812B
 #define COLOR_ORDER     GRB
+
+// LED Controllers
+#define LED_CTRL_MAIN   0
+#define LED_CTRL_STATUS 1
+#define NUM_LED_CONTROLLERS 2
 
 // Status LED Colors
 #define STATUS_OFF    CRGB(  0,   0,   0)

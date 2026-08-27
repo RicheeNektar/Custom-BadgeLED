@@ -6,9 +6,9 @@ class Ota {
         ota.firmware = await Util.waitForElementById('firmware');
         ota.firmware.addEventListener('change', ota.onChange);
 
-        const vResponse = await fetch('/version');
+        const vResponse = await fetch('/version').catch(() => null);
         const vElement = await Util.waitForElementById('current_version');
-        if (vResponse.status === 200) {
+        if (vResponse?.status === 200) {
             vElement.innerHTML = await vResponse.text();
         } else {
             vElement.innerHTML = `N/A`;

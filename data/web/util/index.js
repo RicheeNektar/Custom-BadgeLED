@@ -10,4 +10,30 @@ class Util {
             }, 100);
         });
     }
+
+    static fillConfigInputs(config) {
+        for (let input of document.getElementsByTagName('input')) {
+            const key = input.getAttribute('data-config-key');
+            if (key) {
+                switch (input.type) {
+                    case 'checkbox':
+                        input.checked = 1 === config[key];
+                        break;
+                    default:
+                        input.value = config[key];
+                        break;
+                }
+                if (input.onchange) {
+                    input.onchange();
+                }
+            }
+        }
+
+        for (let input of document.getElementsByTagName('select')) {
+            const key = input.getAttribute('data-config-key');
+            if (key) {
+                input.querySelector(`option[value='${config[key]}']`).selected = true;
+            }
+        }
+    }
 }

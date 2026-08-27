@@ -1,37 +1,50 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en" data-bs-theme="dark">
     <head>
-        <title>Netzwerk Konfiguration</title>
+        <title>Network</title>
+
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/global.css" />
-        <script src="/util/index.js"></script>
-        <script src="/util/config.js"></script>
-        <script src="/util/buffer.js"></script>
-        <script src="/network/config.js"></script>
-        <script src="/network/index.js"></script>
+
+        <link rel="stylesheet" href="../lib/bootstrap.min.css">
+        <link rel="stylesheet" href="../lib/bootstrap-icons.min.css">
+        <script src="../lib/bootstrap.bundle.min.js"></script>
+
+        <script src="../util/index.js"></script>
+        <script src="../util/config.js"></script>
+        <script src="../util/buffer.js"></script>
+        <script src="../network/config.js"></script>
+        <script src="../network/index.js"></script>
     </head>
     <body>
-        <div class="container">
-            <div class="nav-buttons">
-                <a href="/">Zur Startseite</a>
-            </div>
-
-            <h1>Netzwerk Konfiguration</h1>
-
-            <form onsubmit="network.save" id="network-form" class="card">
-                <h3 style="color: #00ff88; margin-top: 0;">Access Point Einstellungen</h3>
-                <div class="control-group">
-                    <label for="apname">SSID</label>
-                    <input type="text" id="apname" minlength="1" value="LED-Badge" required />
+        <header class="navbar sticky-top">
+            <nav class="container">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="../">
+                        <img src="../favicon.ico"  alt="Badge" />
+                    </a>
                 </div>
+            </nav>
+        </header>
 
-                <div class="control-group">
-                    <label for="appassword">Passwort (optional)</label>
-                    <input type="password" id="appassword" minlength="8" placeholder="Leer lassen f&uuml;r offenen AP" />
-                </div>
+        <div class="container mt-3">
+            <h2>Access Point</h2>
 
-                <div class="control-group">
-                    <button type="submit" onclick="setTimeout(() => this.disabled = true)">Speichern</button>
+            <form onsubmit="setTimeout(network.save)" id="network-form" class="card">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label" for="ap-name">SSID</label>
+                        <input class="form-control" type="text" id="ap-name" minlength="1" value="LED-Badge" required />
+                    </div>
+
+                    <div class="mb-3 group">
+                        <label class="form-label" for="ap-password">Password</label>
+                        <input class="form-control" type="password" id="ap-password" minlength="8" placeholder="Leave empty for open AP" />
+                    </div>
+
+                    <div class="mb-3">
+                        <button class="btn btn-primary" type="submit" onclick="setTimeout(() => this.disabled = true)">Save</button>
+                    </div>
                 </div>
             </form>
         </div>

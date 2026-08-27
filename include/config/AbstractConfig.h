@@ -11,13 +11,13 @@ protected:
 
     virtual const char* getContextName() = 0;
 
+public:
     virtual void serialize(Print& file) const = 0;
 
     virtual void deserialize(Stream& file) = 0;
 
     virtual bool validate() = 0;
 
-public:
     virtual ~AbstractConfig() = default;
 
     void save();

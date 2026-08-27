@@ -1,32 +1,35 @@
+#include "Globals.h"
+
 #include "animation/Abstract.h"
 #include "animation/Rainbow.h"
 #include "animation/RotatingGradient.h"
-#include "Globals.h"
 
-uint8_t AbstractAnimation::offset() {
-    return micros() / NUM_MAIN_LEDS / 1000;
+void AbstractAnimation::iterate()
+{
+    _iterations = (_iterations + 1) % NUM_MAIN_LEDS;
+}
+
+int AbstractAnimation::offset() const
+{
+    return _iterations;
 }
 
 void AbstractAnimation::reload() {
-    animationLock.waitForLock();
+    const auto* previous = animation.load();
 
-    delete animation;
-
-    switch (animationConfig.mode) {
+    switch (animationConfig.getMode()) {
         case 0:
-            animation = new RotatingGradient();
+            animation.store(new RotatingGradient());
             break;
         case 1:
-            animation = new RainbowAnimation();
+            animation.store(new RainbowAnimation());
             break;
         default:
-            animation = new RotatingGradient();
+            animation.store(new RotatingGradient());
             break;
     }
 
-    animationLock.unlock();
+    delete previous;
 }
 
-Lock animationLock{};
-
-AbstractAnimation* animation = nullptr;
+std::atomic<AbstractAnimation*> animation(nullptr);

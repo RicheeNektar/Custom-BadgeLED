@@ -2,21 +2,25 @@
 #define ABSTRACT_ANIMATION_H
 
 #include "config/Animation.h"
-#include "Lock.h"
+
+#include <atomic>
 
 struct AbstractAnimation {
+private:
+    int _iterations = 0;
+
+public:
     virtual ~AbstractAnimation() = default;
 
-    virtual void step() = 0;
+    void iterate();
 
     static void reload();
 
-protected:
-    static uint8_t offset();
+    virtual void step() = 0;
+
+    int offset() const;
 };
 
-extern Lock animationLock;
-
-extern AbstractAnimation* animation;
+extern std::atomic<AbstractAnimation*> animation;
 
 #endif //ABSTRACT_ANIMATION_H

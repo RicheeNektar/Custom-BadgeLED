@@ -1,7 +1,7 @@
 class Network {
     async onLoad() {
-        network.apName = await Util.waitForElementById('apName');
-        network.apPassword = await Util.waitForElementById('apPassword');
+        network.apName = await Util.waitForElementById('ap-name');
+        network.apPassword = await Util.waitForElementById('ap-password');
 
         network.form = await Util.waitForElementById('network-form');
         network.form.addEventListener('submit', network.save);

@@ -1,0 +1,2 @@
+0x0[1787863480000 ms] This is a Log entry
+0x1[1787863480000 ms] And a DANGEROUS one :)

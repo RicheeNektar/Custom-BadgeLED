@@ -8,15 +8,15 @@ void LEDAnimationTask::init() {
 }
 
 void LEDAnimationTask::run() {
-    animationLock.waitForLock();
+    auto* anim = animation.load();
 
     if (animation != nullptr) {
-        animation->step();
-        FastLED[0].showLeds(animationConfig.brightness);
+        anim->iterate();
+        anim->step();
+        ledControllers[LED_CTRL_MAIN]->showLeds(animationConfig.getBrightness());
     }
 
-    animationLock.unlock();
-    vTaskDelay(pdMS_TO_TICKS(animationConfig.animationSpeed));
+    vTaskDelay(animationConfig.getDelay() / portTICK_PERIOD_MS);
 }
 
 TaskHandle_t AnimationTaskHandle;

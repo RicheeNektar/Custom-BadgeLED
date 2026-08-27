@@ -36,7 +36,7 @@ void ApiConfigNetwork::postBody(AsyncWebServerRequest* request, const uint8_t* d
 
         request->send(204);
 
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
 
         AccessPoint::restart();
     } else {

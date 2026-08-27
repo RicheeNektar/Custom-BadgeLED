@@ -38,6 +38,8 @@ void Button::onPress() {
 
             debounce = micros();
             onLongPress();
+        } else {
+            setLED(STATUS_OFF);
         }
     }
 }

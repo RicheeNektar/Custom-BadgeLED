@@ -3,9 +3,8 @@
 
 #include "Abstract.h"
 
-struct RainbowAnimation final : virtual AbstractAnimation {
+struct RainbowAnimation final : AbstractAnimation {
     void step() override;
 };
-
 
 #endif //RAINBOW_H

@@ -1,0 +1,13 @@
+[
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/config/animation"
+    },
+    "httpResponse": {
+      "body": {
+        "base64Bytes": "ZAAyAAoBgAA8"
+      }
+    }
+  }
+]

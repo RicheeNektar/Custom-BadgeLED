@@ -25,7 +25,7 @@ bool AccessPoint::restart() {
         }
 
         while (0 == WiFi.softAPIP()) {
-            vTaskDelay(pdMS_TO_TICKS(50));
+            vTaskDelay(50 / portTICK_PERIOD_MS);
         }
 
         WebServer::start();
