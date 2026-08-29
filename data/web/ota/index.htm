@@ -6,20 +6,38 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="stylesheet" href="../lib/bootstrap.min.css">
-        <link rel="stylesheet" href="../lib/bootstrap-icons.min.css">
-        <script src="../lib/bootstrap.bundle.min.js"></script>
+        <link rel="stylesheet" href="/lib/bootstrap.min.css">
+        <link rel="stylesheet" href="/lib/bootstrap-icons.min.css">
+        <script src="/lib/bootstrap.bundle.min.js"></script>
 
-        <script src="../util/index.js"></script>
-        <script src="../ota/index.js"></script>
+        <script src="/util/index.js"></script>
+        <script src="/util/buffer.js"></script>
+        <script src="/ota/index.js"></script>
     </head>
     <body>
-        <header class="navbar sticky-top">
-            <nav class="container">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="../">
-                        <img src="../favicon.ico"  alt="Badge" />
-                    </a>
+        <header class="navbar navbar-expand-lg bg-body-tertiary">
+            <nav class="container container-fluid">
+                <a class="navbar-brand" href="/">
+                    <img src="/favicon.ico"  alt="Badge" />
+                </a>
+                <button class="navbar-toggler float-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Animation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/display">Display</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/network">Network</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/ota">Software Update</a>
+                        </li>
+                    </ul>
                 </div>
             </nav>
         </header>
@@ -32,16 +50,19 @@
                 <div class="card-body">
                     <div class="row mb-3">
                         <div class="col">
-                            Installed: <span class="badge bg-danger text-center" id="current_version"></span>
+                            Installed: <span class="badge bg-secondary text-center" id="current_version"></span>
                         </div>
                         <div class="col">
-                            Selected for upload: <span class="badge bg-success text-center" id="selected_version"></span>
+                            Selected for upload: <span class="badge bg-primary text-center" id="selected_version"></span>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label" for="firmware">Firmware File</label>
-                        <input class="form-control" id="firmware" type="file" />
+                        <input class="form-control" id="firmware" type="file" required />
+                        <div id="firmware-feedback" class="invalid-feedback">
+                            Invalid firmware.
+                        </div>
                     </div>
 
                     <button class="btn btn-primary" type="submit" onclick="setTimeout(() => this.disabled = true)">Update</button>

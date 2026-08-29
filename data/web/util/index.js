@@ -1,4 +1,14 @@
 class Util {
+    static onLoad() {
+        for (let link of document.querySelectorAll('#navbarNav a')) {
+            if (window.location.pathname.replace(/(.)\/$/, '$1') === link.pathname) {
+                link.classList.add('active');
+                link.ariaCurrent = 'page';
+                break;
+            }
+        }
+    }
+
     static waitForElementById(id) {
         return new Promise((resolve) => {
             const interval = setInterval(() => {
@@ -23,9 +33,7 @@ class Util {
                         input.value = config[key];
                         break;
                 }
-                if (input.onchange) {
-                    input.onchange();
-                }
+                input.dispatchEvent(new Event('input'));
             }
         }
 
@@ -37,3 +45,5 @@ class Util {
         }
     }
 }
+
+document.addEventListener('DOMContentLoaded', Util.onLoad);

@@ -40,6 +40,7 @@ void OTA::getUpdate(AsyncWebServerRequest* request) {
                 case UPDATE_RESULT_OUTDATED_VERSION:
                     request->send(400, "text/plain", "Outdated version");
                     return;
+                case UPDATE_RESULT_INVALID_FIRMWARE:
                 case UPDATE_RESULT_FILE_PATH_TOO_LONG:
                     request->send(400, "text/plain", "Invalid firmware");
                     return;

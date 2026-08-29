@@ -2,7 +2,8 @@
 #define GLOBALS_H
 
 #define VERSION "v0.9.0"
-#define iVERSION 0x00000900 // first byte unused
+#define iVERSION 0x00000900 // first byte unused, lowercase required
+#define FIRMWARE_NAME "richee/custom-badgeled"
 
 // Pins
 // LED

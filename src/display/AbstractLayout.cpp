@@ -1,6 +1,6 @@
 #include "display/AbstractLayout.h"
 #include "display/DefaultLayout.h"
-#include "Logs.h"
+#include "Generics.h"
 
 #include <stdexcept>
 

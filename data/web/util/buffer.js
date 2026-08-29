@@ -10,6 +10,10 @@ class Buffer {
         this.position = 0;
     }
 
+    rewind() {
+        this.position = 0;
+    }
+
     read(length = 1) {
         if (length === 1) {
             return this.data[this.position++];

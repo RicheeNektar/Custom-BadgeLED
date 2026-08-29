@@ -11,5 +11,14 @@
         "filePath": "/expectations/logs.txt"
       }
     }
+  },
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/version"
+    },
+    "httpResponse": {
+      "body": "v0.9.0"
+    }
   }
 ]

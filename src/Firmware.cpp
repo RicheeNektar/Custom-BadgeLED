@@ -49,6 +49,17 @@ void Firmware::update()
 
     log_i("Starting firmware update...");
     DataWrapper wrapper(&firmwareFile);
+
+    const String name = wrapper.readString();
+
+    if (!name.equals(FIRMWARE_NAME))
+    {
+        cleanup(&firmwareFile);
+        UPDATE_STATUS = UPDATE_STATUS_ERROR;
+        UPDATE_RESULT = UPDATE_RESULT_INVALID_FIRMWARE;
+        return;
+    }
+
     const uint32_t version = wrapper.readUInt32();
     const uint32_t webCrc32 = wrapper.readUInt32();
 

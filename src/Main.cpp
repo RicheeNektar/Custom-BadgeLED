@@ -2,7 +2,7 @@
 #include "Globals.h"
 #include "BQ25895.h"
 #include "LEDS.h"
-#include "Logs.h"
+#include "Generics.h"
 #include "web/Server.h"
 #include "wifi/AccessPoint.h"
 #include "task/LEDAnimationTask.h"

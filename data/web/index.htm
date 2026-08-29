@@ -17,12 +17,29 @@
         <script src="index.js"></script>
     </head>
     <body>
-        <header class="navbar sticky-top">
-            <nav class="container">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="../">
-                        <img src="favicon.ico"  alt="Badge" />
-                    </a>
+        <header class="navbar navbar-expand-lg bg-body-tertiary">
+            <nav class="container container-fluid">
+                <a class="navbar-brand" href="/">
+                    <img src="/favicon.ico"  alt="Badge" />
+                </a>
+                <button class="navbar-toggler float-end" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/">Animation</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/display">Display</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/network">Network</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/ota">Software Update</a>
+                        </li>
+                    </ul>
                 </div>
             </nav>
         </header>
@@ -33,28 +50,28 @@
                     LED Animation
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col">
+                    <div class="row row-cols-lg-3 row-cols-2">
+                        <div class="col p-2 col-12 col-lg-4">
                             <label class="form-label" for="animation">Animation</label>
                             <select class="form-select" id="animation" name="animation" data-config-key="mode">
                                 <option value="0">Rotating Gradient</option>
                                 <option value="1">Rainbow</option>
                             </select>
                         </div>
-                        <div class="col">
+                        <div class="col p-2">
                             <label class="form-label" for="primary-hue">Primary Hue</label>
                             <div class="d-flex align-items-center">
                                 <input class="me-3 form-range" id="primary-hue" name="primary-hue" type="range" min="0" max="359" data-config-key="primaryHue"
-                                    onchange="document.getElementById('primary-hue-preview').value = `hsl(${this.value} 100% 50%)`"
+                                    oninput="document.getElementById('primary-hue-preview').value = `hsl(${this.value} 100% 50%)`"
                                 />
                                 <input class="form-control form-control-color" id="primary-hue-preview" type="color" disabled readonly/>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col p-2">
                             <label class="form-label" for="secondary-hue">Secondary Hue</label>
                             <div class="d-flex align-items-center">
                                 <input class="me-3 form-range" id="secondary-hue" name="secondary-hue" type="range" min="0" max="359" data-config-key="secondaryHue"
-                                    onchange="document.getElementById('secondary-hue-preview').value = `hsl(${this.value}, 100%, 50%)`"
+                                    oninput="document.getElementById('secondary-hue-preview').value = `hsl(${this.value}, 100%, 50%)`"
                                 />
                                 <input class="form-control form-control-color" id="secondary-hue-preview" type="color" disabled readonly/>
                             </div>
