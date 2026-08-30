@@ -57,17 +57,14 @@
             <h2>Software Update</h2>
 
             <form id="ota-form">
-                <div class="row mb-3">
-                    <div class="col">
-                        Installed: <span class="badge bg-secondary text-center" id="current_version"></span>
-                    </div>
-                    <div class="col">
-                        Selected for upload: <span class="badge bg-primary text-center" id="selected_version"></span>
-                    </div>
+                <div class="mb-3">
+                    <span class="form-label">Currently Installed:</span>
+                    <span class="form-label badge bg-secondary float-end" id="current_version"></span>
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label" for="firmware">Firmware File</label>
+                    <span class="form-label badge bg-primary float-end text-center" id="selected_version"></span>
                     <input class="form-control" id="firmware" type="file" required />
                     <div id="firmware-feedback" class="invalid-feedback">
                         Invalid firmware.

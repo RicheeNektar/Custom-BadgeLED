@@ -1,13 +1,16 @@
 class Display {
     async onLoad() {
+        display.form = await Util.waitForElementById('display-form');
+        display.form.image = await Util.waitForElementById('image-form');
+
+        display.form.addEventListener('submit', display.save);
+        display.form.image.addEventListener('submit', display.upload);
+
         display.name = await Util.waitForElementById('name');
         display.telegram = await Util.waitForElementById('telegram');
         display.description = await Util.waitForElementById('description');
         display.invertColors = await Util.waitForElementById('invert-colors');
         display.redName = await Util.waitForElementById('red-name');
-        display.formConfig = await Util.waitForElementById('form-config');
-
-        display.formConfig.addEventListener('submit', display.save);
 
         const r = await fetch('/api/config/display');
         display.config = new DisplayConfig(await r.bytes());
@@ -29,6 +32,10 @@ class Display {
         display.config.description = display.description.value.trim();
         display.config.invertColors = display.invertColors.checked;
         display.config.redName = display.redName.checked;
+    }
+
+    upload(e) {
+        e.preventDefault();
     }
 }
 
