@@ -18,7 +18,7 @@ class Ota {
 
         ota.selectedVersion = await Util.waitForElementById('selected_version');
 
-        ota.isReady = true;
+        Util.loadingModal.hide();
     }
 
     async onChange(e) {
@@ -56,8 +56,7 @@ class Ota {
         e.preventDefault();
 
         if (!(
-            ota.isReady
-            || ota.firmware.reportValidity()
+            ota.firmware.reportValidity()
         )) {
             return;
         }

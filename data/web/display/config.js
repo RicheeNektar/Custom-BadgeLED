@@ -2,7 +2,7 @@ class DisplayConfig extends Config {
     deserialize(buffer) {
         this.layout = buffer.read();
 
-        this.nameColorRed = buffer.read() === 1;
+        this.redName = buffer.read() === 1;
         this.invertColors = buffer.read() === 1;
 
         this.name = buffer.readText();
@@ -16,7 +16,7 @@ class DisplayConfig extends Config {
     serialize(buffer) {
         buffer.write(this.layout);
 
-        buffer.write(this.nameColorRed);
+        buffer.write(this.redName);
         buffer.write(this.invertColors);
 
         buffer.writeText(this.name);

@@ -1,5 +1,10 @@
 class Util {
     static onLoad() {
+        Util.waitForElementById('loading').then(modal => {
+            Util.loadingModal = new bootstrap.Modal(modal);
+            Util.loadingModal.show();
+        });
+
         for (let link of document.querySelectorAll('#navbarNav a')) {
             if (window.location.pathname.replace(/(.)\/$/, '$1') === link.pathname) {
                 link.classList.add('active');

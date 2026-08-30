@@ -1,17 +1,18 @@
+#include <Arduino.h>
+#include <LittleFS.h>
+
 #include "Main.h"
 #include "Globals.h"
 #include "BQ25895.h"
 #include "LEDS.h"
 #include "Generics.h"
+#include "Firmware.h"
 #include "web/Server.h"
 #include "wifi/AccessPoint.h"
 #include "task/LEDAnimationTask.h"
 #include "task/ButtonTask.h"
 
-#include <Arduino.h>
-#include <LittleFS.h>
-
-#include "Firmware.h"
+#include "qrcode.h"
 
 void setupPins() {
     pinMode(BOOT_BUTTON_PIN, INPUT_PULLUP);

@@ -1,0 +1,13 @@
+[
+  {
+    "httpRequest": {
+      "method": "GET",
+      "path": "/api/config/network"
+    },
+    "httpResponse": {
+      "body": {
+        "base64Bytes": "AQlMRUQtQmFkZ2UA"
+      }
+    }
+  }
+]

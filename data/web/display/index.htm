@@ -45,79 +45,74 @@
             </nav>
         </header>
 
+        <div class="modal" data-bs-backdrop="static" id="loading">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <div class="spinner-border"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container mt-3">
 
             <h1>Display</h1>
 
-            <div class="card">
-                <div class="control-group">
-                    <label for="name">Badge Name / Besitzer</label>
-                    <input type="text" id="name" maxlength="31" value="ArdyMoon">
-                </div>
-                <div class="control-group">
-                    <div class="toggle-container">
-                        <label>Name in Rot anzeigen</label>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="nameColorRed" checked>
-                            <span class="toggle-slider"></span>
-                        </label>
+            <form class="mb-3" id="form-config">
+                <div class="row row-cols-1 row-cols-lg-2">
+                    <div class="col mb-3">
+                        <label class="form-label" for="name">Name</label>
+                        <input class="form-control" id="name" maxlength="32" placeholder="Yours, sona's, or others" data-config-key="name" />
                     </div>
-                    <p style="font-size: 12px; color: #aaa; margin-top: 5px;">
-                        Aus: Name wird Weiss angezeigt
-                    </p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="control-group">
-                    <label for="description">Beschreibung</label>
-                    <textarea id="description" maxlength="255"></textarea>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="control-group">
-                    <label for="telegram">Telegram Name (ohne @)</label>
-                    <input type="text" id="telegram" maxlength="31">
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="control-group">
-                    <label>Bild hochladen (64x64 Pixel)</label>
-                    <div class="image-preview" id="imagePreview">
-                        <img id="previewImg" src="/config/display/image.bmp" alt="image" />
-                        <span id="noImageText">Kein Bild</span>
-                    </div>
-                    <div class="file-upload">
-                        <input type="file" class="file-upload-input" id="imageUpload" accept="image/*" onchange="window.config.uploadImage(this)" >
-                        <div class="file-upload-button">Bild hochladen</div>
-                    </div>
-                    <p style="font-size: 12px; color: #aaa; margin-top: 5px;">
-                        <strong>Bild-Upload-Anleitung:</strong><br>
-                        • Optimale Pixel: 64x64 Pixel<br>
-                        • Unterstuetzte Formate: BMP<br>
-                        • Online-Konverter: <a href="https://convertio.co/de/jpg-bmp/" target="_blank" style="color: #00ff88;">convertio.co</a><br>
-                        • Das Bild wird rechts unter der Trennlinie angezeigt
-                    </p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="control-group">
-                    <div class="toggle-container">
-                        <label>Farben invertieren (schwarzer Hintergrund)</label>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="invertColors">
-                            <span class="toggle-slider"></span>
-                        </label>
+                    <div class="col mb-3">
+                        <label class="form-label" for="telegram">Telegram</label>
+                        <div class="input-group">
+                            <span class="input-group-text">@</span>
+                            <input class="form-control" id="telegram" name="telegram" maxlength="32" data-config-key="telegram" />
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="card">
-                <button onclick="window.config.save()">Speichern</button>
-            </div>
+                <div class="mb-3">
+                    <div class="form-check form-switch form-check-inline">
+                        <input class="form-check-input" type="checkbox" role="switch" name="red-name" id="red-name" data-config-key="redName" />
+                        <label class="form-check-label" for="red-name">Red Name</label>
+                    </div>
+
+                    <div class="form-check form-switch form-check-inline">
+                        <input class="form-check-input" type="checkbox" role="switch" name="invert-colors" id="invert-colors" data-config-key="invertColors" />
+                        <label class="form-check-label" for="invert-colors">Inverted Display</label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="control-group">
+                        <label class="form-label" for="description">Description</label>
+                        <textarea class="form-control" id="description" maxlength="32" rows="3" ></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+
+            <form class="d-flex mb-3">
+                <div class="col col-2 d-flex justify-content-center">
+                    <img class="img-fluid" id="preview" src="/api/config/display/image" alt="current image" />
+                </div>
+                <div class="col ms-3">
+                    <label class="form-label" for="image">Image</label>
+                    <div class="input-group flex-nowrap">
+                        <input class="form-control" type="file" id="image" accept="image/*" />
+                        <button class="btn btn-primary" type="submit">Upload</button>
+                    </div>
+                    <ul class="form-text">
+                        <li>Optimal image resolution: <b>64x64</b></li>
+                        <li>Optimal aspect ration: <b>1:1</b></li>
+                        <li>Maximum upload size: <b>2 MB</b></li>
+                    </ul>
+                </div>
+            </form>
         </div>
     </body>
 </html>

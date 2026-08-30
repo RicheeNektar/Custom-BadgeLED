@@ -10,6 +10,8 @@ class Index {
 
         await index.updateLogs();
         setInterval(index.updateLogs, 5000);
+
+        Util.loadingModal.hide();
     }
 
     async updateLogs() {
