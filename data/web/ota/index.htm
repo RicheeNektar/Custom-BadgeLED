@@ -56,27 +56,25 @@
 
             <h2>Software Update</h2>
 
-            <form id="ota-form" class="card">
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col">
-                            Installed: <span class="badge bg-secondary text-center" id="current_version"></span>
-                        </div>
-                        <div class="col">
-                            Selected for upload: <span class="badge bg-primary text-center" id="selected_version"></span>
-                        </div>
+            <form id="ota-form">
+                <div class="row mb-3">
+                    <div class="col">
+                        Installed: <span class="badge bg-secondary text-center" id="current_version"></span>
                     </div>
-
-                    <div class="mb-3">
-                        <label class="form-label" for="firmware">Firmware File</label>
-                        <input class="form-control" id="firmware" type="file" required />
-                        <div id="firmware-feedback" class="invalid-feedback">
-                            Invalid firmware.
-                        </div>
+                    <div class="col">
+                        Selected for upload: <span class="badge bg-primary text-center" id="selected_version"></span>
                     </div>
-
-                    <button class="btn btn-primary" type="submit" onclick="setTimeout(() => this.disabled = true)">Update</button>
                 </div>
+
+                <div class="mb-3">
+                    <label class="form-label" for="firmware">Firmware File</label>
+                    <input class="form-control" id="firmware" type="file" required />
+                    <div id="firmware-feedback" class="invalid-feedback">
+                        Invalid firmware.
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" type="submit" onclick="setTimeout(() => this.disabled = true)">Update</button>
             </form>
         </div>
     </body>

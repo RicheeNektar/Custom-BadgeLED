@@ -58,21 +58,19 @@
        <div class="container mt-3">
             <h2>Access Point</h2>
 
-            <form onsubmit="setTimeout(network.save)" id="network-form" class="card">
-                <div class="card-body row">
-                    <div class="col col-12 col-lg-6 mb-3">
-                        <label class="form-label" for="ssid">SSID</label>
-                        <input class="form-control" type="text" id="ssid" minlength="1" value="LED-Badge" required data-config-key="ssid" />
-                    </div>
+            <form onsubmit="setTimeout(network.save)" id="network-form" class="row">
+                <div class="col col-12 col-lg-6 mb-3">
+                    <label class="form-label" for="ssid">SSID</label>
+                    <input class="form-control" type="text" id="ssid" minlength="1" value="LED-Badge" required data-config-key="ssid" />
+                </div>
 
-                    <div class="col col-12 col-lg-6 mb-3">
-                        <label class="form-label" for="password">Password</label>
-                        <input class="form-control" type="password" id="password" minlength="8" placeholder="Leave empty for open AP" data-config-key="password" />
-                    </div>
+                <div class="col col-12 col-lg-6 mb-3">
+                    <label class="form-label" for="password">Password</label>
+                    <input class="form-control" type="password" id="password" minlength="8" placeholder="Leave empty for open AP" data-config-key="password" />
+                </div>
 
-                    <div class="mb-3">
-                        <button class="btn btn-primary" type="submit" onclick="setTimeout(() => this.disabled = true)">Save</button>
-                    </div>
+                <div class="mb-3">
+                    <button class="btn btn-primary" type="submit" onclick="setTimeout(() => this.disabled = true)">Save</button>
                 </div>
             </form>
         </div>
